@@ -1,77 +1,56 @@
 
-var HelloWorldLayer = cc.Layer.extend({
-    sprite:null,
+var MenuLayer = cc.Layer.extend({
     ctor:function () {
-        //////////////////////////////
-        // 1. super init first
         this._super();
-
-        /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
         var size = cc.winSize;
 
-        // add a "close" icon to exit the progress. it's an autorelease object
-        var closeItem = new cc.MenuItemImage(
-            res.CloseNormal_png,
-            res.CloseSelected_png,
-            function () {
-                cc.log("Menu is clicked!");
-            }, this);
-        closeItem.attr({
-            x: size.width - 20,
-            y: 20,
-            anchorX: 0.5,
-            anchorY: 0.5
-        });
+        // Fondo
+        var spriteFondoTitulo= new cc.Sprite(res.menu_titulo_png);
+        // Asigno posición central
+        spriteFondoTitulo.setPosition(cc.p(size.width / 2, size.height / 2));
+        // Lo escalo porque es más pequeño que la pantalla
+        spriteFondoTitulo.setScale(size.height / spriteFondoTitulo.height);
+        // Añado Sprite a la escena
+        this.addChild(spriteFondoTitulo);
 
-        var menu = new cc.Menu(closeItem);
-        menu.x = 0;
-        menu.y = 0;
-        this.addChild(menu, 1);
+        /*MenuItemSprite para cada botón
+        var menuBotonJugar = new cc.MenuItemSprite(
+            new cc.Sprite(res.boton_jugar_png), // IMG estado normal
+            new cc.Sprite(res.boton_jugar_png), // IMG estado pulsado
+            this.pulsarBotonJugar, this);*/
 
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        var helloLabel = new cc.LabelTTF("Hello World", "Arial", 38);
-        // position the label on the center of the screen
-        helloLabel.x = size.width / 2;
-        helloLabel.y = 0;
-        // add the label as a child to this layer
-        this.addChild(helloLabel, 5);
+        // MenuItem para el boton del nivel 1
+        var botonNivel1 = new cc.MenuItemSprite(new cc.Sprite(res.boton_nivel_1),
+                    new cc.Sprite(res.boton_nivel_1), this.pulsarBotonNivel1, this);
+        // MenuItem para el boton del nivel 2
+        var botonNivel2 = new cc.MenuItemSprite(new cc.Sprite(res.boton_nivel_2),
+                            new cc.Sprite(res.boton_nivel_2), this.pulsarBotonNivel2, this);
+        // creo el menú pasándole los botones
+        var menu = new cc.Menu();
+        menu.addChild(botonNivel1);
+        menu.addChild(botonNivel2);
+        menu.alignItemsHorizontally();
+        // Asigno posición central
+        menu.setPosition(cc.p(size.width / 2, size.height * 0.25));
+        // Añado el menú a la escena
+        this.addChild(menu);
 
-        // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.HelloWorld_png);
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2,
-            scale: 0.5,
-            rotation: 180
-        });
-        this.addChild(this.sprite, 0);
 
-        this.sprite.runAction(
-            cc.sequence(
-                cc.rotateTo(2, 0),
-                cc.scaleTo(2, 1, 1)
-            )
-        );
-        helloLabel.runAction(
-            cc.spawn(
-                cc.moveBy(2.5, cc.p(0, size.height - 40)),
-                cc.tintTo(2.5,255,125,0)
-            )
-        );
         return true;
-    }
+    }, pulsarBotonNivel1 : function(){
+           cc.director["nivel"] = 1;
+           cc.director.runScene(new GameScene());
+     }, pulsarBotonNivel2:function() {
+           cc.director["nivel"] = 2;
+           cc.director.runScene(new GameScene());
+     }
+
 });
 
-var HelloWorldScene = cc.Scene.extend({
+var MenuScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
-        var layer = new HelloWorldLayer();
+        var layer = new MenuLayer();
         this.addChild(layer);
     }
 });
