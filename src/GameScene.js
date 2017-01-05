@@ -1,4 +1,7 @@
 var tipoSuelo = 1;
+var tipoCristal = 2;
+var tipoMadera = 3;
+var tipoPiedra = 4;
 
 var idCapaJuego = 1;
 var idCapaControles = 2;
@@ -19,8 +22,8 @@ var GameLayer = cc.Layer.extend({
         this.space = new cp.Space();
         this.space.gravity = cp.v(0, -350);
         // Depuración
-        //this.depuracion = new cc.PhysicsDebugNode(this.space);
-        //this.addChild(this.depuracion, 10);
+        this.depuracion = new cc.PhysicsDebugNode(this.space);
+        this.addChild(this.depuracion, 10);
 
         this.cargarMapa();
         this.scheduleUpdate();
@@ -68,13 +71,32 @@ var GameLayer = cc.Layer.extend({
             }
         }
 
+        this.cargarCristales();
+        this.cargarMaderas();
+        this.cargarPiedras();
+   }, cargarCristales:function() {
         var grupoCristales = this.mapa.getObjectGroup("Cristal");
         var cristalesArray = grupoCristales.getObjects();
         for (var i = 0; i < cristalesArray.length; i++) {
             var cristal = new Objeto(this,
-                cc.p(cristalesArray[i]["x"], cristalesArray[i]["y"]));
-            console.log(cristal);
+                cc.p(cristalesArray[i]["x"], cristalesArray[i]["y"]), tipoCristal);
             this.objetos.push(cristal);
+        }
+   }, cargarMaderas:function() {
+        var grupoMaderas = this.mapa.getObjectGroup("Madera");
+        var maderasArray = grupoMaderas.getObjects();
+        for (var i = 0; i < maderasArray.length; i++) {
+            var madera = new Objeto(this,
+                cc.p(maderasArray[i]["x"], maderasArray[i]["y"]), tipoMadera);
+            this.objetos.push(madera);
+        }
+   }, cargarPiedras:function() {
+        var grupoPiedras = this.mapa.getObjectGroup("Piedra");
+        var piedrasArray = grupoPiedras.getObjects();
+        for (var i = 0; i < piedrasArray.length; i++) {
+            var piedra = new Objeto(this,
+                cc.p(piedrasArray[i]["x"], piedrasArray[i]["y"]), tipoPiedra);
+            this.objetos.push(piedra);
         }
    }
 });

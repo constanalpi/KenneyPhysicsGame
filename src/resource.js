@@ -7,7 +7,9 @@ var res = {
     menu_titulo_png : "res/menu_titulo.png",
     mapa1_tmx: "res/mapa1.tmx",
     tiles32_png: "res/tiles32.png",
-    glass1: "res/glass1.png"
+    glass1: "res/glass1.png",
+    wood1: "res/wood1.png",
+    stone1: "res/stone1.png"
 };
 
 var g_resources = [];
