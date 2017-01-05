@@ -22,8 +22,8 @@ var GameLayer = cc.Layer.extend({
         this.space = new cp.Space();
         this.space.gravity = cp.v(0, -350);
         // Depuración
-        this.depuracion = new cc.PhysicsDebugNode(this.space);
-        this.addChild(this.depuracion, 10);
+        //this.depuracion = new cc.PhysicsDebugNode(this.space);
+        //this.addChild(this.depuracion, 10);
 
         this.cargarMapa();
         this.scheduleUpdate();
@@ -78,26 +78,34 @@ var GameLayer = cc.Layer.extend({
         var grupoCristales = this.mapa.getObjectGroup("Cristal");
         var cristalesArray = grupoCristales.getObjects();
         for (var i = 0; i < cristalesArray.length; i++) {
+            var forma = this.cargarTipo(cristalesArray[i]["width"], cristalesArray[i]["height"]);
             var cristal = new Objeto(this,
-                cc.p(cristalesArray[i]["x"], cristalesArray[i]["y"]), tipoCristal);
+                cc.p(cristalesArray[i]["x"], cristalesArray[i]["y"]), tipoCristal, forma);
             this.objetos.push(cristal);
         }
    }, cargarMaderas:function() {
         var grupoMaderas = this.mapa.getObjectGroup("Madera");
         var maderasArray = grupoMaderas.getObjects();
         for (var i = 0; i < maderasArray.length; i++) {
+            var forma = this.cargarTipo(maderasArray[i]["width"], maderasArray[i]["height"]);
             var madera = new Objeto(this,
-                cc.p(maderasArray[i]["x"], maderasArray[i]["y"]), tipoMadera);
+                cc.p(maderasArray[i]["x"], maderasArray[i]["y"]), tipoMadera, forma);
             this.objetos.push(madera);
         }
    }, cargarPiedras:function() {
         var grupoPiedras = this.mapa.getObjectGroup("Piedra");
         var piedrasArray = grupoPiedras.getObjects();
         for (var i = 0; i < piedrasArray.length; i++) {
+            var forma = this.cargarTipo(piedrasArray[i]["width"], piedrasArray[i]["height"]);
             var piedra = new Objeto(this,
-                cc.p(piedrasArray[i]["x"], piedrasArray[i]["y"]), tipoPiedra);
+                cc.p(piedrasArray[i]["x"], piedrasArray[i]["y"]), tipoPiedra, forma);
             this.objetos.push(piedra);
         }
+   }, cargarTipo:function(width, height) {
+        if (width == 80 && height == 40)
+            return formaRectanguloTumbado;
+        if (width == 50 && height == 50)
+            return formaCuadrado;
    }
 });
 

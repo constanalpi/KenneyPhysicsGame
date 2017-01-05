@@ -7,9 +7,12 @@ var res = {
     menu_titulo_png : "res/menu_titulo.png",
     mapa1_tmx: "res/mapa1.tmx",
     tiles32_png: "res/tiles32.png",
-    glass1: "res/glass1.png",
-    wood1: "res/wood1.png",
-    stone1: "res/stone1.png"
+    glass11: "res/glass11.png",
+    glass21: "res/glass21.png",
+    wood11: "res/wood11.png",
+    wood21: "res/wood21.png",
+    stone11: "res/stone11.png",
+    stone21: "res/stone21.png"
 };
 
 var g_resources = [];

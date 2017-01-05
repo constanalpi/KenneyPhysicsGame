@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="9">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="12">
  <tileset firstgid="1" name="tiles32" tilewidth="32" tileheight="32" tilecount="98" columns="14">
   <image source="tiles32.png" width="448" height="224"/>
  </tileset>
@@ -19,12 +19,15 @@
   </object>
  </objectgroup>
  <objectgroup name="Cristal">
-  <object id="4" x="375.758" y="1438.18" width="100" height="50"/>
+  <object id="4" x="375.758" y="1438.18" width="80" height="40"/>
+  <object id="9" x="502" y="1417.24" width="50" height="50"/>
  </objectgroup>
  <objectgroup name="Madera">
-  <object id="5" x="375.758" y="1378.06" width="100" height="50"/>
+  <object id="5" x="375.758" y="1378.06" width="80" height="40"/>
+  <object id="10" x="500" y="1342.42" width="50" height="50"/>
  </objectgroup>
  <objectgroup name="Piedra">
-  <object id="7" x="375.758" y="1321.21" width="100" height="50"/>
+  <object id="7" x="375.758" y="1321.21" width="80" height="40"/>
+  <object id="11" x="393.939" y="1242.42" width="50" height="50"/>
  </objectgroup>
 </map>

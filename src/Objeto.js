@@ -1,10 +1,15 @@
+var formaRectanguloTumbado = 1;
+var formaCuadrado = 2;
+
 var Objeto = cc.Class.extend({
     gameLayer:null,
     sprite:null,
     shape:null,
     tipo:null,
-    ctor:function(gameLayer, posicion, tipo) {
+    forma:null,
+    ctor:function(gameLayer, posicion, tipo, forma) {
 
+        this.forma = forma;
         this.tipo = tipo;
 
         // Crear Sprite - Cuerpo y forma
@@ -21,7 +26,6 @@ var Objeto = cc.Class.extend({
                 this.sprite.getContentSize().width,
                 this.sprite.getContentSize().height);
         this.shape.setFriction(1);
-        console.log(this.shape);
         //this.shape.setCollisionType(tipoJugador);
         // forma dinamica
         gameLayer.space.addShape(this.shape);
@@ -30,13 +34,34 @@ var Objeto = cc.Class.extend({
     }, cargarSprite:function() {
         switch(this.tipo) {
             case tipoCristal:
-                this.sprite = new cc.PhysicsSprite(res.glass1);
+                switch(this.forma) {
+                    case formaRectanguloTumbado:
+                        this.sprite = new cc.PhysicsSprite(res.glass11);
+                        break;
+                    case formaCuadrado:
+                        this.sprite = new cc.PhysicsSprite(res.glass21);
+                        break;
+                }
                 break;
             case tipoMadera:
-                this.sprite = new cc.PhysicsSprite(res.wood1);
+                switch(this.forma) {
+                    case formaRectanguloTumbado:
+                        this.sprite = new cc.PhysicsSprite(res.wood11);
+                        break;
+                    case formaCuadrado:
+                        this.sprite = new cc.PhysicsSprite(res.wood21);
+                        break;
+                }
                 break;
             case tipoPiedra:
-                this.sprite = new cc.PhysicsSprite(res.stone1);
+                switch(this.forma) {
+                    case formaRectanguloTumbado:
+                        this.sprite = new cc.PhysicsSprite(res.stone11);
+                        break;
+                    case formaCuadrado:
+                        this.sprite = new cc.PhysicsSprite(res.stone21);
+                        break;
+                }
                 break;
         }
     }
