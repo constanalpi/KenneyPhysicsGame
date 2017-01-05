@@ -1,8 +1,4 @@
 var tipoSuelo = 1;
-var tipoJugador = 2;
-var tipoMoneda = 3;
-var tipoEnemigo = 4;
-var tipoPincho = 5;
 
 var idCapaJuego = 1;
 var idCapaControles = 2;
@@ -11,6 +7,7 @@ var GameLayer = cc.Layer.extend({
     mapa: null,
     mapaAncho: null,
     nivel:null,
+    objetos:[],
     ctor:function () {
         this._super();
         var size = cc.winSize;
@@ -22,8 +19,8 @@ var GameLayer = cc.Layer.extend({
         this.space = new cp.Space();
         this.space.gravity = cp.v(0, -350);
         // Depuración
-        this.depuracion = new cc.PhysicsDebugNode(this.space);
-        this.addChild(this.depuracion, 10);
+        //this.depuracion = new cc.PhysicsDebugNode(this.space);
+        //this.addChild(this.depuracion, 10);
 
         this.cargarMapa();
         this.scheduleUpdate();
@@ -32,7 +29,7 @@ var GameLayer = cc.Layer.extend({
 
         return true;
     },update:function (dt) {
-
+        this.space.step(dt);
 
     }, cargarMapa:function() {
         switch(this.nivel) {
@@ -64,11 +61,20 @@ var GameLayer = cc.Layer.extend({
                         parseInt(suelo.y) - parseInt(puntos[j].y)),
                     cp.v(parseInt(suelo.x) + parseInt(puntos[j + 1].x),
                         parseInt(suelo.y) - parseInt(puntos[j + 1].y)),
-                    10);
+                    1);
 
                 shapeSuelo.setCollisionType(tipoSuelo);
                 this.space.addStaticShape(shapeSuelo);
             }
+        }
+
+        var grupoCristales = this.mapa.getObjectGroup("Cristal");
+        var cristalesArray = grupoCristales.getObjects();
+        for (var i = 0; i < cristalesArray.length; i++) {
+            var cristal = new Objeto(this,
+                cc.p(cristalesArray[i]["x"], cristalesArray[i]["y"]));
+            console.log(cristal);
+            this.objetos.push(cristal);
         }
    }
 });

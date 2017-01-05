@@ -6,7 +6,8 @@ var res = {
     boton_nivel_2: "res/nivel_2.png",
     menu_titulo_png : "res/menu_titulo.png",
     mapa1_tmx: "res/mapa1.tmx",
-    tiles32_png: "res/tiles32.png"
+    tiles32_png: "res/tiles32.png",
+    glass1: "res/glass1.png"
 };
 
 var g_resources = [];
