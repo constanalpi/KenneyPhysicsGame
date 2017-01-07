@@ -2,19 +2,20 @@
 var ProyectilNormal = cc.Class.extend({
 gameLayer:null,
 spriteProyectil:null,
+bodyProyectil:null,
 ctor:function(gameLayer, posicion) {
+
     this.gameLayer = gameLayer;
 
-    this.spriteProyectil = cc.PhysicsSprite(res.pelota);
-    this.spritePelota.setScaleX(1.4);
-    this.spritePelota.setScaleY(1.4);
-    var body = new cp.Body(1, cp.momentForCircle(1, 0, this.spritePelota.width / 2, cp.vzero));
-    body.p = cc.p(posicion.x - 20, posicion.y + 120);
-    this.spritePelota.setBody(body);
-    //this.gameLayer.space.addBody(body);
-    var shape = new cp.CircleShape(body, this.spritePelota.width / 2, cp.vzero);
+    this.spriteProyectil = new cc.PhysicsSprite(res.pelota);
+    this.spriteProyectil.setScaleX(1.4);
+    this.spriteProyectil.setScaleY(1.4);
+    this.bodyProyectil = new cp.Body(1, cp.momentForCircle(1, 0, this.spriteProyectil.width / 2, cp.vzero));
+    this.bodyProyectil.p = posicion;
+    this.spriteProyectil.setBody(this.bodyProyectil);
+    var shape = new cp.CircleShape(this.bodyProyectil, this.spriteProyectil.width / 2, cp.vzero);
     shape.setFriction(1);
     this.gameLayer.space.addShape(shape);
-    this.gameLayer.addChild(this.spritePelota, 20);
+    this.gameLayer.addChild(this.spriteProyectil, 20);
 }
 });

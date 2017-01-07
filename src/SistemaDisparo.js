@@ -5,28 +5,14 @@ slingRubber1:null,
 slingRubber2:null,
 slingRubber3:null,
 posicionInicialProyectil:null,
-spritePelota:null,
+proyectil:null,
 slingRadius: {min: 20, max: 80},
 slingAngle: {min: 4.36, max: 5.14},
 apuntando:false,
 ctor:function(gameLayer, posicion) {
 
     this.gameLayer = gameLayer;
-
-    //Inicializar el sprite de la pelota
-    this.spritePelota = new cc.PhysicsSprite(res.pelota);
-    this.spritePelota.setScaleX(1.4);
-    this.spritePelota.setScaleY(1.4);
-    var body = new cp.Body(1, cp.momentForCircle(1, 0, this.spritePelota.width / 2, cp.vzero));
-    body.p = cc.p(posicion.x - 20, posicion.y + 120);
-    this.spritePelota.setBody(body);
-    //this.gameLayer.space.addBody(body);
-    var shape = new cp.CircleShape(body, this.spritePelota.width / 2, cp.vzero);
-    shape.setFriction(1);
-    this.gameLayer.space.addShape(shape);
-    this.gameLayer.addChild(this.spritePelota, 20);
-
-    this.posicionInicialProyectil = cc.p(body.p.x, body.p.y);
+    this.posicionInicialProyectil = cc.p(posicion.x - 20, posicion.y + 120);
 
     var sling1Sprite = new cc.Sprite.create(res.sling1);
     //sling1Sprite.setAnchorPoint(cc.p(1, 0));
@@ -79,7 +65,7 @@ ctor:function(gameLayer, posicion) {
     radius = Math.min(Math.max(radius, this.slingRadius.min), this.slingRadius.max);
     if (angle <= this.slingAngle.max && angle >= this.slingAngle.min)
         radius = this.slingRadius.min;
-    this.spritePelota.setPosition(cc.pAdd(this.posicionInicialProyectil,
+    this.proyectil.spriteProyectil.setPosition(cc.pAdd(this.posicionInicialProyectil,
             cc.p(radius * Math.cos(angle), radius * Math.sin(angle))));
 
     var updateRubber = function (rubber, to, lengthAddon, topRubber) {
@@ -100,7 +86,7 @@ ctor:function(gameLayer, posicion) {
         }
     }.bind(this);
 
-    var rubberToPos = this.spritePelota.getPosition();
+    var rubberToPos = this.proyectil.spriteProyectil.getPosition();
     updateRubber(this.slingRubber2, rubberToPos, 13, true);
     updateRubber(this.slingRubber1, rubberToPos, 0);
     this.slingRubber1.setScaleY(this.slingRubber2.getScaleY());
@@ -110,14 +96,19 @@ ctor:function(gameLayer, posicion) {
         this.slingRubber2.setVisible(false);
         this.slingRubber3.setVisible(false);
 
-        this.gameLayer.space.addBody(this.spritePelota.body);
-        //this.gameLayer.space.addShape(this.spritePelota.shape);
+        this.gameLayer.space.addBody(this.proyectil.spriteProyectil.body);
+        //this.gameLayer.space.addShape(this.proyectil.spriteProyectil.shape);
 
-        var vector = cc.pSub(this.posicionInicialProyectil, this.spritePelota.getPosition()),
+        var vector = cc.pSub(this.posicionInicialProyectil, this.proyectil.spriteProyectil.getPosition()),
                 impulse = cc.pMult(vector, 12);
-                //bPos = this.spritePelota.body.GetWorldCenter();
-        this.spritePelota.body.applyImpulse(impulse, cp.v(0, 0));
+                //bPos = this.proyectil.spriteProyectil.body.GetWorldCenter();
+        this.proyectil.spriteProyectil.body.applyImpulse(impulse, cp.v(0, 0));
         this.apuntando = false;
+        return this.proyectil;
     }
+}, cargar:function(proyectil) {
+    this.proyectil = proyectil;
+    var actionMoverProyectilSobreDisparador = cc.MoveTo.create(1, this.posicionInicialProyectil);
+    this.proyectil.spriteProyectil.runAction(actionMoverProyectilSobreDisparador);
 }
 });

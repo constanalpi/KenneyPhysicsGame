@@ -23,6 +23,7 @@ var GameLayer = cc.Layer.extend({
     estadoCamara:null,
     estadoAnimacionInicial:null,
     cronometroCamara:0,
+    proyectilActivo:null,
     ctor:function () {
         this._super();
         // Cachear
@@ -53,6 +54,7 @@ var GameLayer = cc.Layer.extend({
     },update:function (dt) {
         this.space.step(dt);
         this.actualizarCamara(dt);
+        console.log(this.estadoCamara);
 
     }, cargarMapa:function() {
         switch(this.nivel) {
@@ -104,6 +106,7 @@ var GameLayer = cc.Layer.extend({
         this.sistemaDisparo = new SistemaDisparo(this,
                 cc.p(grupoSistemaDisparo.getObjects()[0]["x"],
                 grupoSistemaDisparo.getObjects()[0]["y"]));
+        this.sistemaDisparo.cargar(new ProyectilNormal(this, cc.p(200, 200)));
    }, cargarCristales:function() {
         var grupoCristales = this.mapa.getObjectGroup("Cristal");
         var cristalesArray = grupoCristales.getObjects();
@@ -138,14 +141,18 @@ var GameLayer = cc.Layer.extend({
             return formaCuadrado;
    }, procesarMouseDown:function (event) {
         var tocaEnSistemaDisparo = event.getCurrentTarget().sistemaDisparo.mouseDown(
-            cc.p(event.getLocationX(), event.getLocationY()));
+            cc.p(event.getLocationX() - event.getCurrentTarget().getPosition().x, event.getLocationY()));
    }, procesarMouseMove:function(event) {
-        event.getCurrentTarget().sistemaDisparo.mouseMove(cc.p(event.getLocationX(), event.getLocationY()));
+        event.getCurrentTarget().sistemaDisparo.mouseMove(cc.p(
+                event.getLocationX() - event.getCurrentTarget().getPosition().x, event.getLocationY()));
    }, procesarMouseUp: function(event) {
-        var proyectil = event.getCurrentTarget().
-                sistemaDisparo.mouseUp(cc.p(event.getLocationX(), event.getLocationY()));
-        if (proyectil)
-            this.estadoCamara = estadoDisparando;
+        var instancia = event.getCurrentTarget();
+        instancia.proyectilActivo = instancia.
+                sistemaDisparo.mouseUp(cc.p(event.getLocationX()
+                - event.getCurrentTarget().getPosition().x, event.getLocationY()));
+        if (instancia.proyectilActivo) {
+            instancia.estadoCamara = estadoDisparando;
+        }
    }, actualizarCamara:function(dt) {
         switch(this.estadoCamara) {
             case estadoObservando:
@@ -166,11 +173,11 @@ var GameLayer = cc.Layer.extend({
         this.setPosition(cc.p(this.getPosition().x + 2,0));
         if (Math.abs(Math.abs(this.getPosition().x - cc.winSize.width / 2)
                     - this.sistemaDisparo.posicionInicialProyectil.x) < 5) {
-            this.setPosition(cc.p(-(this.sistemaDisparo.posicionInicialProyectil.x - cc.winSize.width / 2), 0));
-            this.estadoCamara = estadoDisparando;
+            this.setPosition(cc.p(-(this.sistemaDisparo.proyectil.spriteProyectil.x - cc.winSize.width / 2), 0));
+            this.estadoCamara = estadoApuntando;
         }
    }, playEstadoDisparando:function(dt) {
-
+        this.setPosition(cc.p(-(this.sistemaDisparo.proyectil.spriteProyectil.x - cc.winSize.width / 2), 0));
    }
 });
 
