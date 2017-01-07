@@ -9,12 +9,19 @@ var idCapaControles = 2;
 var GameLayer = cc.Layer.extend({
     mapa: null,
     mapaAncho: null,
+    space:null,
     nivel:null,
+    sistemaDisparo:null,
     objetos:[],
     ctor:function () {
         this._super();
         var size = cc.winSize;
         // Cachear
+
+        // Inicializar listeners de Mouse
+        cc.eventManager.addListener({event: cc.EventListener.MOUSE, onMouseDown: this.procesarMouseDown}, this);
+        cc.eventManager.addListener({event: cc.EventListener.MOUSE, onMouseMove: this.procesarMouseMove}, this);
+        cc.eventManager.addListener({event: cc.EventListener.MOUSE, onMouseUp: this.procesarMouseUp}, this);
 
         // Coger el nivel del director
         this.nivel = cc.director["nivel"];
@@ -22,10 +29,12 @@ var GameLayer = cc.Layer.extend({
         this.space = new cp.Space();
         this.space.gravity = cp.v(0, -350);
         // Depuración
-        //this.depuracion = new cc.PhysicsDebugNode(this.space);
-        //this.addChild(this.depuracion, 10);
+        this.depuracion = new cc.PhysicsDebugNode(this.space);
+        this.addChild(this.depuracion, 10);
 
         this.cargarMapa();
+        // Inicializar el sistema de disparo
+        this.sistemaDisparo = new SistemaDisparo(this, cc.p(200, 200));
         this.scheduleUpdate();
 
         // ------------- COLISIONES ------------------
@@ -65,7 +74,7 @@ var GameLayer = cc.Layer.extend({
                     cp.v(parseInt(suelo.x) + parseInt(puntos[j + 1].x),
                         parseInt(suelo.y) - parseInt(puntos[j + 1].y)),
                     1);
-
+                shapeSuelo.setFriction(1);
                 shapeSuelo.setCollisionType(tipoSuelo);
                 this.space.addStaticShape(shapeSuelo);
             }
@@ -102,10 +111,16 @@ var GameLayer = cc.Layer.extend({
             this.objetos.push(piedra);
         }
    }, cargarTipo:function(width, height) {
-        if (width == 80 && height == 40)
+        if (width == 50 && height == 25)
             return formaRectanguloTumbado;
-        if (width == 50 && height == 50)
+        if (width == 30 && height == 30)
             return formaCuadrado;
+   }, procesarMouseDown:function (event) {
+        event.getCurrentTarget().sistemaDisparo.mouseDown(cc.p(event.getLocationX(), event.getLocationY()));
+   }, procesarMouseMove:function(event) {
+        event.getCurrentTarget().sistemaDisparo.mouseMove(cc.p(event.getLocationX(), event.getLocationY()));
+   }, procesarMouseUp: function(event) {
+        event.getCurrentTarget().sistemaDisparo.mouseUp(cc.p(event.getLocationX(), event.getLocationY()));
    }
 });
 

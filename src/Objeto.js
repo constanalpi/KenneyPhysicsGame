@@ -13,7 +13,6 @@ var Objeto = cc.Class.extend({
         this.tipo = tipo;
 
         // Crear Sprite - Cuerpo y forma
-        //this.sprite = new cc.PhysicsSprite(res.glass1);
         this.cargarSprite();
         // Cuerpo dinámico, SI le afectan las fuerzas
         this.body = new cp.Body(1, cp.momentForBox(1,

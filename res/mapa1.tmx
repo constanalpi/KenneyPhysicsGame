@@ -10,24 +10,24 @@
  </layer>
  <layer name="Patrones Terreno" width="100" height="50">
   <data encoding="base64" compression="zlib">
-   eJztw0EJAAAIBLADE9i/rAn8i2ywBAAAAAAAAAAAAAAAAAAAAAAA4Lfy1FbXA8DfDnU=
+   eJztwwEJAAAMA6DB+ndejcMVTAAAAAAAAAAAAAAAAAAAAAAAAICv6qkDOucBLQ==
   </data>
  </layer>
  <objectgroup name="Suelos">
-  <object id="1" x="-3" y="1505.75">
+  <object id="1" x="-3" y="1568.75">
    <polyline points="0,0 3192,0"/>
   </object>
  </objectgroup>
  <objectgroup name="Cristal">
-  <object id="4" x="375.758" y="1438.18" width="80" height="40"/>
-  <object id="9" x="502" y="1417.24" width="50" height="50"/>
+  <object id="4" x="375.758" y="1504.85" width="50" height="25"/>
+  <object id="9" x="502" y="1417.24" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="Madera">
-  <object id="5" x="375.758" y="1378.06" width="80" height="40"/>
-  <object id="10" x="500" y="1342.42" width="50" height="50"/>
+  <object id="5" x="375.758" y="1447.76" width="50" height="25"/>
+  <object id="10" x="500" y="1342.42" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="Piedra">
-  <object id="7" x="375.758" y="1321.21" width="80" height="40"/>
-  <object id="11" x="393.939" y="1242.42" width="50" height="50"/>
+  <object id="7" x="369.697" y="1396.97" width="50" height="25"/>
+  <object id="11" x="393.939" y="1242.42" width="30" height="30"/>
  </objectgroup>
 </map>

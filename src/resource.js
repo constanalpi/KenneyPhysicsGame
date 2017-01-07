@@ -12,7 +12,11 @@ var res = {
     wood11: "res/wood11.png",
     wood21: "res/wood21.png",
     stone11: "res/stone11.png",
-    stone21: "res/stone21.png"
+    stone21: "res/stone21.png",
+    sling1: "res/sling1.png",
+    sling2: "res/sling2.png",
+    sling3: "res/sling3.png",
+    pelota: "res/pelota.png"
 };
 
 var g_resources = [];
