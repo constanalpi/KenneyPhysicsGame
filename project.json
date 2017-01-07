@@ -15,6 +15,7 @@
         "src/app.js",
         "src/GameScene.js",
         "src/Objeto.js",
-        "src/SistemaDisparo.js"
+        "src/SistemaDisparo.js",
+        "src/ProyectilNormal.js"
     ]
 }

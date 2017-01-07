@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="12">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="14">
  <tileset firstgid="1" name="tiles32" tilewidth="32" tileheight="32" tilecount="98" columns="14">
   <image source="tiles32.png" width="448" height="224"/>
  </tileset>
@@ -19,15 +19,21 @@
   </object>
  </objectgroup>
  <objectgroup name="Cristal">
-  <object id="4" x="375.758" y="1504.85" width="50" height="25"/>
-  <object id="9" x="502" y="1417.24" width="30" height="30"/>
+  <object id="4" x="1960.76" y="1512.85" width="50" height="25"/>
+  <object id="9" x="2087" y="1425.24" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="Madera">
-  <object id="5" x="375.758" y="1447.76" width="50" height="25"/>
-  <object id="10" x="500" y="1342.42" width="30" height="30"/>
+  <object id="5" x="1960.76" y="1455.76" width="50" height="25"/>
+  <object id="10" x="2085" y="1350.42" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="Piedra">
-  <object id="7" x="369.697" y="1396.97" width="50" height="25"/>
-  <object id="11" x="393.939" y="1242.42" width="30" height="30"/>
+  <object id="7" x="1954.7" y="1404.97" width="50" height="25"/>
+  <object id="11" x="1978.94" y="1250.42" width="30" height="30"/>
+ </objectgroup>
+ <objectgroup name="SistemaDisparo">
+  <object id="12" x="425" y="1482" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup name="PuntoEnfoqueObjetos">
+  <object id="13" x="2044" y="1360" width="5" height="5"/>
  </objectgroup>
 </map>

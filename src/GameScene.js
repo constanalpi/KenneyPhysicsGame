@@ -6,6 +6,12 @@ var tipoPiedra = 4;
 var idCapaJuego = 1;
 var idCapaControles = 2;
 
+// ------------ ESTADOS CAMARA ------------
+var estadoApuntando = 1;
+var estadoDisparando = 2;
+var estadoObservando = 3;
+var estadoVolviendoAlDisparador = 4;
+
 var GameLayer = cc.Layer.extend({
     mapa: null,
     mapaAncho: null,
@@ -13,10 +19,15 @@ var GameLayer = cc.Layer.extend({
     nivel:null,
     sistemaDisparo:null,
     objetos:[],
+    puntoEnfoqueObjetos:null,
+    estadoCamara:null,
+    estadoAnimacionInicial:null,
+    cronometroCamara:0,
     ctor:function () {
         this._super();
-        var size = cc.winSize;
         // Cachear
+
+        this.estadoCamara = estadoObservando;
 
         // Inicializar listeners de Mouse
         cc.eventManager.addListener({event: cc.EventListener.MOUSE, onMouseDown: this.procesarMouseDown}, this);
@@ -33,8 +44,7 @@ var GameLayer = cc.Layer.extend({
         this.addChild(this.depuracion, 10);
 
         this.cargarMapa();
-        // Inicializar el sistema de disparo
-        this.sistemaDisparo = new SistemaDisparo(this, cc.p(200, 200));
+        this.setPosition(cc.p(-(this.puntoEnfoqueObjetos.x - cc.winSize.width / 2),0));
         this.scheduleUpdate();
 
         // ------------- COLISIONES ------------------
@@ -42,6 +52,7 @@ var GameLayer = cc.Layer.extend({
         return true;
     },update:function (dt) {
         this.space.step(dt);
+        this.actualizarCamara(dt);
 
     }, cargarMapa:function() {
         switch(this.nivel) {
@@ -55,7 +66,6 @@ var GameLayer = cc.Layer.extend({
         this.addChild(this.mapa);
         // Ancho del mapa
         this.mapaAncho = this.mapa.getContentSize().width;
-        //console.log("El ancho del mapa es " + this.mapaAncho);
 
         // Solicitar los objeto dentro de la capa Suelos
         var grupoSuelos = this.mapa.getObjectGroup("Suelos");
@@ -83,6 +93,17 @@ var GameLayer = cc.Layer.extend({
         this.cargarCristales();
         this.cargarMaderas();
         this.cargarPiedras();
+        this.cargarSistemaDisparo();
+        this.cargarPuntoEnfoqueObjetos();
+    }, cargarPuntoEnfoqueObjetos:function() {
+        this.puntoEnfoqueObjetos = cc.p(this.mapa.getObjectGroup("PuntoEnfoqueObjetos").getObjects()[0]["x"],
+                this.mapa.getObjectGroup("PuntoEnfoqueObjetos").getObjects()[0]["y"]);
+    }, cargarSistemaDisparo:function() {
+        var grupoSistemaDisparo = this.mapa.getObjectGroup("SistemaDisparo");
+        // Inicializar el sistema de disparo
+        this.sistemaDisparo = new SistemaDisparo(this,
+                cc.p(grupoSistemaDisparo.getObjects()[0]["x"],
+                grupoSistemaDisparo.getObjects()[0]["y"]));
    }, cargarCristales:function() {
         var grupoCristales = this.mapa.getObjectGroup("Cristal");
         var cristalesArray = grupoCristales.getObjects();
@@ -116,11 +137,40 @@ var GameLayer = cc.Layer.extend({
         if (width == 30 && height == 30)
             return formaCuadrado;
    }, procesarMouseDown:function (event) {
-        event.getCurrentTarget().sistemaDisparo.mouseDown(cc.p(event.getLocationX(), event.getLocationY()));
+        var tocaEnSistemaDisparo = event.getCurrentTarget().sistemaDisparo.mouseDown(
+            cc.p(event.getLocationX(), event.getLocationY()));
    }, procesarMouseMove:function(event) {
         event.getCurrentTarget().sistemaDisparo.mouseMove(cc.p(event.getLocationX(), event.getLocationY()));
    }, procesarMouseUp: function(event) {
-        event.getCurrentTarget().sistemaDisparo.mouseUp(cc.p(event.getLocationX(), event.getLocationY()));
+        var proyectil = event.getCurrentTarget().
+                sistemaDisparo.mouseUp(cc.p(event.getLocationX(), event.getLocationY()));
+        if (proyectil)
+            this.estadoCamara = estadoDisparando;
+   }, actualizarCamara:function(dt) {
+        switch(this.estadoCamara) {
+            case estadoObservando:
+                this.playEstadoObservandoCamara(dt);
+                break;
+            case estadoVolviendoAlDisparador:
+                this.playEstadoVolviendoAlDisparador(dt);
+                break;
+            case estadoDisparando:
+                this.playEstadoDisparando(dt);
+                break;
+        }
+   }, playEstadoObservandoCamara:function(dt) {
+        this.cronometroCamara += dt;
+        if (this.cronometroCamara >= 5)
+            this.estadoCamara = estadoVolviendoAlDisparador;
+   }, playEstadoVolviendoAlDisparador:function(dt) {
+        this.setPosition(cc.p(this.getPosition().x + 2,0));
+        if (Math.abs(Math.abs(this.getPosition().x - cc.winSize.width / 2)
+                    - this.sistemaDisparo.posicionInicialProyectil.x) < 5) {
+            this.setPosition(cc.p(-(this.sistemaDisparo.posicionInicialProyectil.x - cc.winSize.width / 2), 0));
+            this.estadoCamara = estadoDisparando;
+        }
+   }, playEstadoDisparando:function(dt) {
+
    }
 });
 

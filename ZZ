@@ -1,0 +1,35 @@
+[33mcommit c03a8172f3a26549048de76440f65918fc7d7b43[m
+Author: constanalpi <constanalpi@gmail.com>
+Date:   Sat Jan 7 16:29:42 2017 +0100
+
+    el tirachinas es capaz de disparar
+
+[33mcommit d9bc9a2d5c205eec686240f45587a541e35fc543[m
+Author: constanalpi <constanalpi@gmail.com>
+Date:   Thu Jan 5 23:30:05 2017 +0100
+
+    carga cristales, maderas y piedras cuadradas
+
+[33mcommit 6f87785fb4e98f34f27bbbf65780c21843782ff9[m
+Author: constanalpi <constanalpi@gmail.com>
+Date:   Thu Jan 5 21:16:14 2017 +0100
+
+    carga cristales, maderas y piedras
+
+[33mcommit 82d070274b310e9a6f7fd277fcf1d8a4935199bf[m
+Author: constanalpi <constanalpi@gmail.com>
+Date:   Thu Jan 5 20:16:56 2017 +0100
+
+    carga objetos de cristal
+
+[33mcommit 2c24186ff46fcf70fb85fd2e78b950e7c12d3ef6[m
+Author: constanalpi <constanalpi@gmail.com>
+Date:   Wed Jan 4 22:30:28 2017 +0100
+
+    carga tiles y segmentos de suelo
+
+[33mcommit e4997d505f5ad60dbe85ac0bd7b64f47934431b0[m
+Author: constanalpi <constanalpi@gmail.com>
+Date:   Wed Jan 4 21:50:51 2017 +0100
+
+    first commit, nothing works
