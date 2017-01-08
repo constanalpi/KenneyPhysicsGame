@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="15">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="16">
  <tileset firstgid="1" name="tiles32" tilewidth="32" tileheight="32" tilecount="98" columns="14">
   <image source="tiles32.png" width="448" height="224"/>
  </tileset>
@@ -35,5 +35,10 @@
  </objectgroup>
  <objectgroup name="PuntoEnfoqueObjetos">
   <object id="14" x="2044" y="1360" width="10" height="10"/>
+ </objectgroup>
+ <objectgroup name="AliensRedondos">
+  <object id="15" x="1856" y="1492" width="30" height="30">
+   <ellipse/>
+  </object>
  </objectgroup>
 </map>

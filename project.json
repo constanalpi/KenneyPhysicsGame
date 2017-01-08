@@ -16,6 +16,7 @@
         "src/GameScene.js",
         "src/Objeto.js",
         "src/SistemaDisparo.js",
-        "src/ProyectilNormal.js"
+        "src/ProyectilNormal.js",
+        "src/AlienRedondo.js"
     ]
 }

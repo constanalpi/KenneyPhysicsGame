@@ -1,10 +1,11 @@
-var tipoSuelo = 1;
 var tipoCristal = 2;
 var tipoMadera = 3;
 var tipoPiedra = 4;
 
 var tipoProyectil = 1;
 var tipoObjeto = 2;
+var tipoSuelo = 3;
+var tipoAlien = 4;
 
 var idCapaJuego = 1;
 var idCapaControles = 2;
@@ -23,6 +24,7 @@ var GameLayer = cc.Layer.extend({
     sistemaDisparo:null,
     objetos:[],
     objetosEliminar:[],
+    aliens:[],
     puntoEnfoqueObjetos:null,
     estadoCamara:null,
     estadoAnimacionInicial:null,
@@ -98,6 +100,7 @@ var GameLayer = cc.Layer.extend({
                         parseInt(suelo.y) - parseInt(puntos[j + 1].y)),
                     1);
                 shapeSuelo.setFriction(1);
+                shapeSuelo.setCollisionType(tipoSuelo);
                 this.space.addStaticShape(shapeSuelo);
             }
         }
@@ -105,8 +108,17 @@ var GameLayer = cc.Layer.extend({
         this.cargarCristales();
         this.cargarMaderas();
         this.cargarPiedras();
+        this.cargarAliensRedondos();
         this.cargarSistemaDisparo();
         this.cargarPuntoEnfoqueObjetos();
+    }, cargarAliensRedondos:function() {
+        var grupoAliensRedondos = this.mapa.getObjectGroup("AliensRedondos");
+        var aliensRedondosArray = grupoAliensRedondos.getObjects();
+        for (var i = 0; i < aliensRedondosArray.length; i++) {
+            var alienRedondo = new AlienRedondo(this,
+                cc.p(aliensRedondosArray[i]["x"], aliensRedondosArray[i]["y"]));
+            this.aliens.push(alienRedondo);
+        }
     }, cargarPuntoEnfoqueObjetos:function() {
         this.puntoEnfoqueObjetos = cc.p(this.mapa.getObjectGroup("PuntoEnfoqueObjetos").getObjects()[0]["x"],
                 this.mapa.getObjectGroup("PuntoEnfoqueObjetos").getObjects()[0]["y"]);

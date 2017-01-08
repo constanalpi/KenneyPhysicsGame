@@ -28,7 +28,12 @@ var res = {
     sling1: "res/sling1.png",
     sling2: "res/sling2.png",
     sling3: "res/sling3.png",
-    pelota: "res/pelota.png"
+    pelota: "res/pelota.png",
+    alienBeige_round: "res/alienBeige_round.png",
+    alienBlue_round: "res/alienBlue_round.png",
+    alienGreen_round: "res/alienGreen_round.png",
+    alienPink_round: "res/alienPink_round.png",
+    alienYellow_round: "res/alienYellow_round.png"
 };
 
 var g_resources = [];
