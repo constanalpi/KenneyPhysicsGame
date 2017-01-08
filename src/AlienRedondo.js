@@ -30,11 +30,14 @@ var AlienRedondo = cc.Class.extend({
                 this.sprite = new cc.PhysicsSprite(res.alienYellow_round);
                 break;
         }
-        var body = new cp.Body(1, cp.momentForCircle(1, 0, this.sprite.width/2, cp.vzero));
+        this.sprite.setScaleX(.5);
+        this.sprite.setScaleY(.5);
+        var body = new cp.Body(1, cp.momentForCircle(1, 0, (
+                this.sprite.width * this.sprite.getScaleX()) / 2, cp.vzero));
         console.log(this.sprite.width/2);
         body.setPos(posicion);
         this.shape = new cp.CircleShape(body,
-                this.sprite.getContentSize().width/2, cp.vzero);
+                (this.sprite.getContentSize().width * this.sprite.getScaleX())/2, cp.vzero);
         this.shape["object"] = this;
         this.shape.setFriction(1);
         this.shape.setCollisionType(tipoObjeto);

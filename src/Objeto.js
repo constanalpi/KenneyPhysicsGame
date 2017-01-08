@@ -18,13 +18,15 @@ var Objeto = cc.Class.extend({
 
         // Crear Sprite - Cuerpo y forma
         this.cargarSprite();
+        this.sprite.setScaleX(0.5);
+        this.sprite.setScaleY(0.5);
         this.cargarBody();
         this.body.setPos(posicion);
         this.sprite.setBody(this.body);
         this.gameLayer.space.addBody(this.body);
         this.shape = new cp.BoxShape(this.body,
-                this.sprite.getContentSize().width,
-                this.sprite.getContentSize().height);
+                this.sprite.getContentSize().width * this.sprite.getScaleX(),
+                this.sprite.getContentSize().height * this.sprite.getScaleY());
         this.shape["object"] = this;
         this.shape.setFriction(1);
         this.shape.setCollisionType(tipoObjeto);
@@ -178,6 +180,8 @@ var Objeto = cc.Class.extend({
         }
         this.cambiarSprite(newSprite);
     }, cambiarSprite:function(newSprite) {
+        newSprite.setScaleX(0.5);
+        newSprite.setScaleY(0.5);
         newSprite.setBody(this.sprite.body);
         this.gameLayer.removeChild(this.sprite);
         this.gameLayer.addChild(newSprite);
