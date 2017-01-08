@@ -10,11 +10,12 @@ ctor:function(gameLayer, posicion) {
     this.spriteProyectil = new cc.PhysicsSprite(res.pelota);
     this.spriteProyectil.setScaleX(1.4);
     this.spriteProyectil.setScaleY(1.4);
-    this.bodyProyectil = new cp.Body(1, cp.momentForCircle(1, 0, this.spriteProyectil.width / 2, cp.vzero));
+    this.bodyProyectil = new cp.Body(5, cp.momentForCircle(1, 0, this.spriteProyectil.width / 2, cp.vzero));
     this.bodyProyectil.p = posicion;
     this.spriteProyectil.setBody(this.bodyProyectil);
     var shape = new cp.CircleShape(this.bodyProyectil, this.spriteProyectil.width / 2, cp.vzero);
     shape.setFriction(1);
+    shape.setCollisionType(tipoProyectil);
     this.gameLayer.space.addShape(shape);
     this.gameLayer.addChild(this.spriteProyectil, 20);
 }

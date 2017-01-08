@@ -20,15 +20,15 @@
  </objectgroup>
  <objectgroup name="Cristal">
   <object id="4" x="1960.76" y="1533.85" width="50" height="25"/>
-  <object id="9" x="1969" y="1425.24" width="30" height="30"/>
+  <object id="9" x="1969" y="1453.24" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="Madera">
   <object id="5" x="1960.76" y="1496.76" width="50" height="25"/>
-  <object id="10" x="1970" y="1383.42" width="30" height="30"/>
+  <object id="10" x="2017" y="1485.42" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="Piedra">
-  <object id="7" x="1954.7" y="1458.97" width="50" height="25"/>
-  <object id="11" x="1970.94" y="1344.42" width="30" height="30"/>
+  <object id="7" x="2024.7" y="1538.97" width="50" height="25"/>
+  <object id="11" x="1970.94" y="1533.42" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="SistemaDisparo">
   <object id="12" x="956" y="1515" width="50" height="50"/>

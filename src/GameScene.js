@@ -1,7 +1,9 @@
-var tipoSuelo = 1;
 var tipoCristal = 2;
 var tipoMadera = 3;
 var tipoPiedra = 4;
+
+var tipoProyectil = 1;
+var tipoObjeto = 2;
 
 var idCapaJuego = 1;
 var idCapaControles = 2;
@@ -19,6 +21,7 @@ var GameLayer = cc.Layer.extend({
     nivel:null,
     sistemaDisparo:null,
     objetos:[],
+    objetosEliminar:[],
     puntoEnfoqueObjetos:null,
     estadoCamara:null,
     estadoAnimacionInicial:null,
@@ -44,17 +47,24 @@ var GameLayer = cc.Layer.extend({
         this.depuracion = new cc.PhysicsDebugNode(this.space);
         this.addChild(this.depuracion, 10);
 
+        // - -------- COLISIONES ------------
+        // objeto y proyectil
+        this.space.addCollisionHandler(tipoProyectil, tipoObjeto,
+                null, null, this.colisionProyectilObjeto.bind(this), null);
+        this.space.addCollisionHandler(tipoObjeto, tipoObjeto,
+                null, null, this.colisionObjetoObjeto.bind(this), null);
+
         this.cargarMapa();
         this.setPosition(cc.p(-(this.puntoEnfoqueObjetos.x - cc.winSize.width / 2),0));
         this.scheduleUpdate();
-
-        // ------------- COLISIONES ------------------
 
         return true;
     },update:function (dt) {
         this.space.step(dt);
         this.actualizarCamara(dt);
-        console.log(this.estadoCamara);
+        this.eliminarObjetos();
+        for (var i = 0; i < this.objetos.length; i++)
+            console.log(this.objetos[i].sprite);
 
     }, cargarMapa:function() {
         switch(this.nivel) {
@@ -87,7 +97,6 @@ var GameLayer = cc.Layer.extend({
                         parseInt(suelo.y) - parseInt(puntos[j + 1].y)),
                     1);
                 shapeSuelo.setFriction(1);
-                shapeSuelo.setCollisionType(tipoSuelo);
                 this.space.addStaticShape(shapeSuelo);
             }
         }
@@ -170,7 +179,7 @@ var GameLayer = cc.Layer.extend({
         if (this.cronometroCamara >= 5)
             this.estadoCamara = estadoVolviendoAlDisparador;
    }, playEstadoVolviendoAlDisparador:function(dt) {
-        this.setPosition(cc.p(this.getPosition().x + 2,0));
+        this.setPosition(cc.p(this.getPosition().x + 4,0));
         if (Math.abs(Math.abs(this.getPosition().x - cc.winSize.width / 2)
                     - this.sistemaDisparo.posicionInicialProyectil.x) < 5) {
             this.setPosition(cc.p(-(this.sistemaDisparo.proyectil.spriteProyectil.x - cc.winSize.width / 2), 0));
@@ -178,6 +187,25 @@ var GameLayer = cc.Layer.extend({
         }
    }, playEstadoDisparando:function(dt) {
         this.setPosition(cc.p(-(this.sistemaDisparo.proyectil.spriteProyectil.x - cc.winSize.width / 2), 0));
+   }, colisionProyectilObjeto(arbiter, space) {
+        var shapes = arbiter.getShapes();
+        shapes[1]["object"].colision(Math.max(Math.max(Math.abs(shapes[0].body.getVel().x),
+                Math.abs(shapes[0].body.getVel().y)), Math.max(Math.abs(shapes[1].body.getVel().x),
+                 Math.abs(shapes[1].body.getVel().y))));
+        /*Tienes que implementar colision, que disminuira de la vida al objeto más o menos dependiendo del tipo,
+        ademas de actualizar, que cambia el sprite, o hace desaparecer al objeto, en función de la disminución de la vida.*/
+   }, colisionObjetoObjeto:function(arbiter, space) {
+
+   }, eliminarObjeto:function(objeto) {
+        this.objetosEliminar.push(objeto);
+   }, eliminarObjetos:function() {
+        for (var i = 0; i < this.objetosEliminar.length; i++) {
+            this.objetos.splice(this.objetos.indexOf(this.objetosEliminar[i]), 1);
+            this.removeChild(this.objetosEliminar[i].sprite);
+            this.space.removeBody(this.objetosEliminar[i].sprite.body);
+            this.space.removeShape(this.objetosEliminar[i].shape);
+        }
+        this.objetosEliminar =  [];
    }
 });
 

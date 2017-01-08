@@ -100,7 +100,7 @@ ctor:function(gameLayer, posicion) {
         //this.gameLayer.space.addShape(this.proyectil.spriteProyectil.shape);
 
         var vector = cc.pSub(this.posicionInicialProyectil, this.proyectil.spriteProyectil.getPosition()),
-                impulse = cc.pMult(vector, 12);
+                impulse = cc.pMult(vector, 50);
                 //bPos = this.proyectil.spriteProyectil.body.GetWorldCenter();
         this.proyectil.spriteProyectil.body.applyImpulse(impulse, cp.v(0, 0));
         this.apuntando = false;
