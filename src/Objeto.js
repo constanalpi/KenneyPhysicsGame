@@ -85,7 +85,7 @@ var Objeto = cc.Class.extend({
                 break;
         }
     }, colision:function(fuerza) {
-        console.log("we are here");
+        if (Math.abs(fuerza) < 100) return;
         switch(this.tipo) {
             case tipoCristal:
                 this.vida -= fuerza * 1.5;
@@ -98,7 +98,6 @@ var Objeto = cc.Class.extend({
                 break;
         }
         this.actualizarEstado();
-        console.log("El tipo es " + this.tipo + " la forma es " + this.forma);
     }, actualizarEstado:function() {
         if (this.vida > 800)
             this.cargarEstadoIntacto();
@@ -108,7 +107,6 @@ var Objeto = cc.Class.extend({
             this.cargarEstadoRoto();
         else
             this.destruido();
-        console.log(this.vida);
     }, cargarEstadoIntacto:function() {
         var newSprite;
         switch(this.tipo) {

@@ -1,3 +1,4 @@
+var tipoSuelo = 1;
 var tipoCristal = 2;
 var tipoMadera = 3;
 var tipoPiedra = 4;
@@ -53,6 +54,8 @@ var GameLayer = cc.Layer.extend({
                 null, null, this.colisionProyectilObjeto.bind(this), null);
         this.space.addCollisionHandler(tipoObjeto, tipoObjeto,
                 null, null, this.colisionObjetoObjeto.bind(this), null);
+        this.space.addCollisionHandler(tipoObjeto, tipoSuelo,
+                null, null, this.colisionObjetoSuelo.bind(this), null);
 
         this.cargarMapa();
         this.setPosition(cc.p(-(this.puntoEnfoqueObjetos.x - cc.winSize.width / 2),0));
@@ -63,8 +66,6 @@ var GameLayer = cc.Layer.extend({
         this.space.step(dt);
         this.actualizarCamara(dt);
         this.eliminarObjetos();
-        for (var i = 0; i < this.objetos.length; i++)
-            console.log(this.objetos[i].sprite);
 
     }, cargarMapa:function() {
         switch(this.nivel) {
@@ -195,8 +196,18 @@ var GameLayer = cc.Layer.extend({
         /*Tienes que implementar colision, que disminuira de la vida al objeto más o menos dependiendo del tipo,
         ademas de actualizar, que cambia el sprite, o hace desaparecer al objeto, en función de la disminución de la vida.*/
    }, colisionObjetoObjeto:function(arbiter, space) {
-
-   }, eliminarObjeto:function(objeto) {
+        var shapes = arbiter.getShapes();
+        var maximaVelocidad = Math.max(Math.max(Math.abs(shapes[0].body.getVel().x),
+                                  Math.abs(shapes[0].body.getVel().y)),
+                                   Math.max(Math.abs(shapes[1].body.getVel().x),
+                                   Math.abs(shapes[1].body.getVel().y)));
+        shapes[1]["object"].colision(maximaVelocidad);
+        shapes[0]["object"].colision(maximaVelocidad);
+   }, colisionObjetoSuelo:function(arbiter, space) {
+        var shapes = arbiter.getShapes();
+        shapes[0]["object"].colision(Math.max(Math.abs(shapes[0].body.getVel().x), Math.abs(shapes[0].body.getVel().y)));
+   }
+   , eliminarObjeto:function(objeto) {
         this.objetosEliminar.push(objeto);
    }, eliminarObjetos:function() {
         for (var i = 0; i < this.objetosEliminar.length; i++) {
