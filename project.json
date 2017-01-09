@@ -18,6 +18,7 @@
         "src/SistemaDisparo.js",
         "src/ProyectilNormal.js",
         "src/AlienRedondo.js",
-        "src/AlienCuadrado.js"
+        "src/AlienCuadrado.js",
+        "src/ProyectilMultiple.js"
     ]
 }

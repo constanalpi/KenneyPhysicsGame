@@ -30,7 +30,6 @@ var AlienCuadrado = cc.Class.extend({
         this.gameLayer.space.addBody(body);
         this.sprite.setBody(body);
         this.shape.setCollisionType(tipoAlien);
-        console.log(this.sprite);
         this.gameLayer.space.addShape(this.shape);
         // añadir sprite a la capa
         this.gameLayer.addChild(this.sprite, 10);

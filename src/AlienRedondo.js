@@ -35,7 +35,6 @@ var AlienRedondo = cc.Class.extend({
         this.sprite.setScaleY(.5);
         var body = new cp.Body(1, cp.momentForCircle(1, 0, (
                 this.sprite.width * this.sprite.getScaleX()) / 2, cp.vzero));
-        console.log(this.sprite.width/2);
         body.setPos(posicion);
         this.shape = new cp.CircleShape(body,
                 (this.sprite.getContentSize().width * this.sprite.getScaleX())/2, cp.vzero);
@@ -46,7 +45,6 @@ var AlienRedondo = cc.Class.extend({
         this.gameLayer.space.addBody(body);
         this.sprite.setBody(body);
         this.shape.setCollisionType(tipoAlien);
-        console.log(this.sprite);
         this.gameLayer.space.addShape(this.shape);
         // añadir sprite a la capa
         this.gameLayer.addChild(this.sprite, 10);

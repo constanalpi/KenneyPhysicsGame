@@ -26,6 +26,7 @@ var GameLayer = cc.Layer.extend({
     objetosEliminar:[],
     aliens:[],
     aliensEliminar:[],
+    proyectilesEliminar:[],
     puntoEnfoqueObjetos:null,
     estadoCamara:null,
     estadoAnimacionInicial:null,
@@ -76,6 +77,7 @@ var GameLayer = cc.Layer.extend({
         this.actualizarCamara(dt);
         this.eliminarObjetos();
         this.eliminarAliens();
+        this.eliminarProyectiles();
     }, cargarMapa:function() {
         switch(this.nivel) {
             case 1:
@@ -153,7 +155,7 @@ var GameLayer = cc.Layer.extend({
         this.sistemaDisparo = new SistemaDisparo(this,
                 cc.p(grupoSistemaDisparo.getObjects()[0]["x"],
                 grupoSistemaDisparo.getObjects()[0]["y"]));
-        this.sistemaDisparo.cargar(new ProyectilNormal(this, cc.p(200, 200)));
+        this.sistemaDisparo.cargar(new ProyectilMultiple(this, cc.p(200, 200)));
    }, cargarCristales:function() {
         var grupoCristales = this.mapa.getObjectGroup("Cristal");
         var cristalesArray = grupoCristales.getObjects();
@@ -187,8 +189,11 @@ var GameLayer = cc.Layer.extend({
         if (width == 30 && height == 30)
             return formaCuadrado;
    }, procesarMouseDown:function (event) {
-        var tocaEnSistemaDisparo = event.getCurrentTarget().sistemaDisparo.mouseDown(
+        var instancia = event.getCurrentTarget();
+        var tocaEnSistemaDisparo = instancia.sistemaDisparo.mouseDown(
             cc.p(event.getLocationX() - event.getCurrentTarget().getPosition().x, event.getLocationY()));
+        if (instancia.estadoCamara == estadoDisparando && instancia.proyectilActivo instanceof ProyectilMultiple)
+            instancia.proyectilActivo.multiplicar();
    }, procesarMouseMove:function(event) {
         event.getCurrentTarget().sistemaDisparo.mouseMove(cc.p(
                 event.getLocationX() - event.getCurrentTarget().getPosition().x, event.getLocationY()));
@@ -276,6 +281,15 @@ var GameLayer = cc.Layer.extend({
             this.space.removeShape(this.aliensEliminar[i].shape);
         }
         this.aliensEliminar = [];
+   }, eliminarProyectil:function(proyectil) {
+        this.proyectilesEliminar.push(proyectil);
+   }, eliminarProyectiles:function() {
+        for (var i = 0; i < this.proyectilesEliminar.length; i++) {
+            this.space.removeBody(this.proyectilesEliminar[i].bodyProyectil);
+            this.space.removeShape(this.proyectilesEliminar[i].shapeProyectil);
+            this.removeChild(this.proyectilesEliminar[i].spriteProyectil);
+        }
+        this.proyectilesEliminar = [];
    }
 });
 

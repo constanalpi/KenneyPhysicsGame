@@ -29,6 +29,8 @@ var res = {
     sling2: "res/sling2.png",
     sling3: "res/sling3.png",
     pelota: "res/pelota.png",
+    pelota_multiple: "res/pelota_multiple.png",
+    mini_proyectil: "res/mini_proyectil.png",
     alienBeige_round: "res/alienBeige_round.png",
     alienBlue_round: "res/alienBlue_round.png",
     alienGreen_round: "res/alienGreen_round.png",
