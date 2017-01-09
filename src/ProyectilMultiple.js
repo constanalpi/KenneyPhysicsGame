@@ -45,9 +45,6 @@ var ProyectilMultiple = cc.Class.extend({
         var shapeMiniProyectil = new cp.CircleShape(bodyMiniProyectil, (spriteMiniProyectil.width * .3) / 2, cp.vzero);
         shapeMiniProyectil.setFriction(1);
         shapeMiniProyectil.setCollisionType(tipoProyectil);
-        /*console.log(spriteMiniProyectil);
-        console.log(bodyMiniProyectil);
-        console.log(shapeMiniProyectil);*/
         this.gameLayer.addChild(spriteMiniProyectil);
         this.gameLayer.space.addBody(bodyMiniProyectil);
         this.gameLayer.space.addShape(shapeMiniProyectil);

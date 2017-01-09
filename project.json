@@ -19,6 +19,7 @@
         "src/ProyectilNormal.js",
         "src/AlienRedondo.js",
         "src/AlienCuadrado.js",
-        "src/ProyectilMultiple.js"
+        "src/ProyectilMultiple.js",
+        "src/ProyectilOvni.js"
     ]
 }

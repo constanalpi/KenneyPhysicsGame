@@ -31,6 +31,8 @@ var res = {
     pelota: "res/pelota.png",
     pelota_multiple: "res/pelota_multiple.png",
     mini_proyectil: "res/mini_proyectil.png",
+    proyectil_ovni: "res/proyectil_ovni.png",
+    disparo_ovni: "res/disparo_ovni.png",
     alienBeige_round: "res/alienBeige_round.png",
     alienBlue_round: "res/alienBlue_round.png",
     alienGreen_round: "res/alienGreen_round.png",

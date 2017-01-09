@@ -6,6 +6,7 @@ var tipoProyectil = 1;
 var tipoObjeto = 2;
 var tipoSuelo = 3;
 var tipoAlien = 4;
+var tipoDisparoOvni = 5;
 
 var idCapaJuego = 1;
 var idCapaControles = 2;
@@ -27,6 +28,7 @@ var GameLayer = cc.Layer.extend({
     aliens:[],
     aliensEliminar:[],
     proyectilesEliminar:[],
+    shapesEliminar:[],
     puntoEnfoqueObjetos:null,
     estadoCamara:null,
     estadoAnimacionInicial:null,
@@ -62,10 +64,18 @@ var GameLayer = cc.Layer.extend({
                 null, null, this.colisionObjetoSuelo.bind(this), null);
         this.space.addCollisionHandler(tipoProyectil, tipoAlien,
                 null, null, this.colisionProyectilAlien.bind(this), null);
+        this.space.addCollisionHandler(tipoProyectil, tipoSuelo,
+                null, null, this.colisionProyectilSuelo.bind(this), null);
         this.space.addCollisionHandler(tipoObjeto, tipoAlien,
                 null, null, this.colisionObjetoAlien.bind(this), null);
         this.space.addCollisionHandler(tipoAlien, tipoSuelo,
                 null, null, this.colisionAlienSuelo.bind(this), null);
+        this.space.addCollisionHandler(tipoDisparoOvni, tipoAlien,
+                null, null, this.colisionDisparoOvniAlien.bind(this), null);
+        this.space.addCollisionHandler(tipoDisparoOvni, tipoObjeto,
+                null, null, this.colisionDisparoOvniObjeto.bind(this), null);
+        this.space.addCollisionHandler(tipoDisparoOvni, tipoSuelo,
+                null, null, this.colisionDisparoOvniSuelo.bind(this), null);
 
         this.cargarMapa();
         this.setPosition(cc.p(-(this.puntoEnfoqueObjetos.x - cc.winSize.width / 2),0));
@@ -75,9 +85,11 @@ var GameLayer = cc.Layer.extend({
     },update:function (dt) {
         this.space.step(dt);
         this.actualizarCamara(dt);
+        this.actualizarDisparo(dt);
         this.eliminarObjetos();
         this.eliminarAliens();
         this.eliminarProyectiles();
+        this.eliminarShapes();
     }, cargarMapa:function() {
         switch(this.nivel) {
             case 1:
@@ -155,7 +167,7 @@ var GameLayer = cc.Layer.extend({
         this.sistemaDisparo = new SistemaDisparo(this,
                 cc.p(grupoSistemaDisparo.getObjects()[0]["x"],
                 grupoSistemaDisparo.getObjects()[0]["y"]));
-        this.sistemaDisparo.cargar(new ProyectilMultiple(this, cc.p(200, 200)));
+        this.sistemaDisparo.cargar(new ProyectilOvni(this, cc.p(200, 200)));
    }, cargarCristales:function() {
         var grupoCristales = this.mapa.getObjectGroup("Cristal");
         var cristalesArray = grupoCristales.getObjects();
@@ -230,8 +242,17 @@ var GameLayer = cc.Layer.extend({
         }
    }, playEstadoDisparando:function(dt) {
         this.setPosition(cc.p(-(this.sistemaDisparo.proyectil.spriteProyectil.x - cc.winSize.width / 2), 0));
+   }, colisionProyectilSuelo:function() {
+        if (this.proyectilActivo instanceof ProyectilOvni) {
+            this.eliminarProyectil(this.proyectilActivo);
+            return;
+        }
    }, colisionProyectilObjeto(arbiter, space) {
         var shapes = arbiter.getShapes();
+        if (this.proyectilActivo instanceof ProyectilOvni) {
+            this.eliminarProyectil(this.proyectilActivo);
+            return;
+        }
         shapes[1]["object"].colision(Math.max(Math.max(Math.abs(shapes[0].body.getVel().x),
                 Math.abs(shapes[0].body.getVel().y)), Math.max(Math.abs(shapes[1].body.getVel().x),
                  Math.abs(shapes[1].body.getVel().y))));
@@ -250,6 +271,10 @@ var GameLayer = cc.Layer.extend({
         shapes[0]["object"].colision(Math.max(Math.abs(shapes[0].body.getVel().x), Math.abs(shapes[0].body.getVel().y)));
    }, colisionProyectilAlien:function(arbiter, space) {
         var shapes = arbiter.getShapes();
+        if (this.proyectilActivo instanceof ProyectilOvni) {
+            this.eliminarProyectil(this.proyectilActivo);
+            return;
+        }
         shapes[1]["alien"].colision(Math.max(Math.max(Math.abs(shapes[0].body.getVel().x),
                 Math.abs(shapes[0].body.getVel().y)), Math.max(Math.abs(shapes[1].body.getVel().x),
                 Math.abs(shapes[1].body.getVel().y))));
@@ -258,6 +283,17 @@ var GameLayer = cc.Layer.extend({
         shapes[1]["alien"].colision(Math.max(Math.max(Math.abs(shapes[0].body.getVel().x),
                 Math.abs(shapes[0].body.getVel().y)), Math.max(Math.abs(shapes[1].body.getVel().x),
                 Math.abs(shapes[1].body.getVel().y))));
+   }, colisionDisparoOvniAlien:function(arbiter, space) {
+        var shapes = arbiter.getShapes();
+        shapes[1]["alien"].colision(10000);
+        this.eliminarShape(shapes[0]);
+   }, colisionDisparoOvniObjeto:function(arbiter, space) {
+        var shapes = arbiter.getShapes();
+        shapes[1]["object"].colision(10000);
+        this.eliminarShape(shapes[0]);
+   }, colisionDisparoOvniSuelo:function(arbiter, space) {
+        var shapes = arbiter.getShapes();
+        this.eliminarShape(shapes[0]);
    }, colisionAlienSuelo:function(arbiter, space) {
         var shapes = arbiter.getShapes();
         shapes[0]["alien"].colision(Math.max(Math.abs(shapes[0].body.getVel().x), Math.abs(shapes[0].body.getVel().y)));
@@ -288,8 +324,24 @@ var GameLayer = cc.Layer.extend({
             this.space.removeBody(this.proyectilesEliminar[i].bodyProyectil);
             this.space.removeShape(this.proyectilesEliminar[i].shapeProyectil);
             this.removeChild(this.proyectilesEliminar[i].spriteProyectil);
+            if (this.proyectilesEliminar[i] == this.proyectilActivo)
+                this.proyectilActivo = null;
         }
         this.proyectilesEliminar = [];
+   }, eliminarShape:function(shape) {
+        this.shapesEliminar.push(shape);
+   }, eliminarShapes:function() {
+        for (var i = 0; i < this.shapesEliminar.length; i++) {
+            if (this.space.containsBody(this.shapesEliminar[i].body))
+                this.space.removeBody(this.shapesEliminar[i].body);
+            if (this.space.containsShape(this.shapesEliminar[i]))
+                this.space.removeShape(this.shapesEliminar[i]);
+            this.removeChild(this.shapesEliminar[i]["mySprite"]);
+        }
+        this.shapesEliminar = [];
+   }, actualizarDisparo:function(dt) {
+        if (this.proyectilActivo instanceof ProyectilOvni)
+            this.proyectilActivo.disparar(dt, this.aliens);
    }
 });
 
