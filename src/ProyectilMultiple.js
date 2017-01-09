@@ -23,19 +23,17 @@ var ProyectilMultiple = cc.Class.extend({
 
     }, multiplicar:function() {
         var posicionProyectil = this.spriteProyectil.getPosition();
-        console.log(this.spriteProyectil.getPosition());
         var velocidadProyectil = this.bodyProyectil.getVel();
         var nuevosProyectiles = [];
         for (var i = 0; i < 3; i++)
             nuevosProyectiles.push(this.crearMiniProyectil(cc.p(posicionProyectil.x + i, posicionProyectil.y)));
         var impulse = cc.pMult(velocidadProyectil, 2);
-        console.log(impulse);
         nuevosProyectiles[0].body.applyImpulse(impulse, cp.v(0, 0));
         nuevosProyectiles[1].body.applyImpulse(cp.v(impulse.x, impulse.y + 500), cp.v(0, 0));
         nuevosProyectiles[2].body.applyImpulse(cp.v(impulse.x, impulse.y - 500), cp.v(0, 0));
 
-        console.log(nuevosProyectiles.length);
         this.gameLayer.eliminarProyectil(this);
+        this.gameLayer.proyectilSpriteActivo = nuevosProyectiles[1];
 
     }, crearMiniProyectil:function(posicion) {
         var spriteMiniProyectil = new cc.PhysicsSprite(res.mini_proyectil);

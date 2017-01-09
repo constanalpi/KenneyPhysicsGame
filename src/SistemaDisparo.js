@@ -104,6 +104,7 @@ ctor:function(gameLayer, posicion) {
                 //bPos = this.proyectil.spriteProyectil.body.GetWorldCenter();
         this.proyectil.spriteProyectil.body.applyImpulse(impulse, cp.v(0, 0));
         this.apuntando = false;
+        this.gameLayer.proyectilActivo = this.proyectil;
         return this.proyectil;
     }
 }, cargar:function(proyectil) {

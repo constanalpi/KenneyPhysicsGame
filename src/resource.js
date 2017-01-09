@@ -47,7 +47,8 @@ var res = {
     alienBlue_suit: "res/alienBlue_suit.png",
     alienGreen_suit: "res/alienGreen_suit.png",
     alienPink_suit: "res/alienPink_suit.png",
-    alienYellow_suit: "res/alienYellow_suit.png"
+    alienYellow_suit: "res/alienYellow_suit.png",
+    boton_reanudar: "res/boton_reanudar.png"
 };
 
 var g_resources = [];

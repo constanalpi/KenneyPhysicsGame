@@ -20,6 +20,7 @@
         "src/AlienRedondo.js",
         "src/AlienCuadrado.js",
         "src/ProyectilMultiple.js",
-        "src/ProyectilOvni.js"
+        "src/ProyectilOvni.js",
+        "src/GameOverLayer.js"
     ]
 }

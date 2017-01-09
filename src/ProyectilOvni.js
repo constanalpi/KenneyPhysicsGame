@@ -4,6 +4,7 @@ var ProyectilOvni = cc.Class.extend({
     spriteProyectil:null,
     bodyProyectil:null,
     shapeProyectil:null,
+    eliminado:false,
     tiempoSinDisparar:0,
     ctor:function(gameLayer, posicion) {
         this.gameLayer = gameLayer;
@@ -22,7 +23,7 @@ var ProyectilOvni = cc.Class.extend({
         this.gameLayer.space.addShape(this.shapeProyectil);
         this.gameLayer.addChild(this.spriteProyectil, 20);
     }, disparar:function(dt, aliens) {
-        if (aliens.length == 0) return;
+        if (aliens.length == 0 || this.eliminado) return;
         this.tiempoSinDisparar += dt;
         if (this.tiempoSinDisparar > .5) {
             this.generarDisparo(aliens);

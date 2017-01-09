@@ -16,6 +16,7 @@ var estadoApuntando = 1;
 var estadoDisparando = 2;
 var estadoObservando = 3;
 var estadoVolviendoAlDisparador = 4;
+var estadoYendoAMirar = 5;
 
 var GameLayer = cc.Layer.extend({
     mapa: null,
@@ -29,11 +30,14 @@ var GameLayer = cc.Layer.extend({
     aliensEliminar:[],
     proyectilesEliminar:[],
     shapesEliminar:[],
+    proyectiles:[],
     puntoEnfoqueObjetos:null,
     estadoCamara:null,
     estadoAnimacionInicial:null,
     cronometroCamara:0,
     proyectilActivo:null,
+    proyectilSpriteActivo:null,
+    numeroProyectil:null,
     ctor:function () {
         this._super();
         // Cachear
@@ -132,8 +136,32 @@ var GameLayer = cc.Layer.extend({
         this.cargarAliensRedondos();
         this.cargarAliensCuadrados();
         this.cargarAliensSuit();
+        this.cargarProyectiles();
         this.cargarSistemaDisparo();
         this.cargarPuntoEnfoqueObjetos();
+    }, cargarProyectiles:function() {
+        var grupoProyectilesNormales = this.mapa.getObjectGroup("ProyectilesNormales");
+        var proyectilesNormales = grupoProyectilesNormales.getObjects();
+        for (var i = 0; i < proyectilesNormales.length; i++) {
+            var proyectilNormal = new ProyectilNormal(this, cc.p(proyectilesNormales[i]["x"], proyectilesNormales[i]["y"]));
+            this.proyectiles.push(proyectilNormal);
+        }
+
+        var grupoProyectilesMultiples = this.mapa.getObjectGroup("ProyectilesMultiples");
+        var proyectilesMultiples = grupoProyectilesMultiples.getObjects();
+        for (var i = 0; i < proyectilesMultiples.length; i++) {
+            var proyectilMultiple = new ProyectilMultiple(this, cc.p(proyectilesMultiples[i]["x"], proyectilesMultiples[i]["y"]));
+            this.proyectiles.push(proyectilMultiple);
+        }
+
+        var grupoProyectilesOvni = this.mapa.getObjectGroup("ProyectilesOvni");
+        var proyectilesOvni = grupoProyectilesOvni.getObjects();
+        for (var i = 0; i < proyectilesOvni.length; i++) {
+            var proyectilOvni = new ProyectilOvni(this, cc.p(proyectilesOvni[i]["x"], proyectilesOvni[i]["y"]));
+            this.proyectiles.push(proyectilOvni);
+        }
+        this.numeroProyectil = 0;
+
     }, cargarAliensSuit:function() {
         var grupoAliensSuit = this.mapa.getObjectGroup("AliensSuit");
         var aliensSuitArray = grupoAliensSuit.getObjects();
@@ -167,7 +195,6 @@ var GameLayer = cc.Layer.extend({
         this.sistemaDisparo = new SistemaDisparo(this,
                 cc.p(grupoSistemaDisparo.getObjects()[0]["x"],
                 grupoSistemaDisparo.getObjects()[0]["y"]));
-        this.sistemaDisparo.cargar(new ProyectilOvni(this, cc.p(200, 200)));
    }, cargarCristales:function() {
         var grupoCristales = this.mapa.getObjectGroup("Cristal");
         var cristalesArray = grupoCristales.getObjects();
@@ -211,8 +238,7 @@ var GameLayer = cc.Layer.extend({
                 event.getLocationX() - event.getCurrentTarget().getPosition().x, event.getLocationY()));
    }, procesarMouseUp: function(event) {
         var instancia = event.getCurrentTarget();
-        instancia.proyectilActivo = instancia.
-                sistemaDisparo.mouseUp(cc.p(event.getLocationX()
+        instancia.sistemaDisparo.mouseUp(cc.p(event.getLocationX()
                 - event.getCurrentTarget().getPosition().x, event.getLocationY()));
         if (instancia.proyectilActivo) {
             instancia.estadoCamara = estadoDisparando;
@@ -228,28 +254,66 @@ var GameLayer = cc.Layer.extend({
             case estadoDisparando:
                 this.playEstadoDisparando(dt);
                 break;
+            case estadoYendoAMirar:
+                this.playEstadoYendoAMirar();
+        }
+   }, playEstadoYendoAMirar:function() {
+        this.setPosition(cc.p(this.getPosition().x - 4,0));
+        if (Math.abs(Math.abs(this.getPosition().x - cc.winSize.width / 2)
+                    - this.puntoEnfoqueObjetos.x) < 5) {
+            this.estadoCamara = estadoObservando;
         }
    }, playEstadoObservandoCamara:function(dt) {
         this.cronometroCamara += dt;
-        if (this.cronometroCamara >= 5)
+        if (this.cronometroCamara >= 5) {
+            console.log(this.numeroProyectil);
+            console.log(this.proyectiles.length);
+            if (this.numeroProyectil >= this.proyectiles.length) {
+                console.log(this.aliens.length);
+                if (this.aliens.length > 0)
+                    this.perderPartida();
+            }
             this.estadoCamara = estadoVolviendoAlDisparador;
+            this.cronometroCamara = 0;
+        }
    }, playEstadoVolviendoAlDisparador:function(dt) {
         this.setPosition(cc.p(this.getPosition().x + 4,0));
         if (Math.abs(Math.abs(this.getPosition().x - cc.winSize.width / 2)
                     - this.sistemaDisparo.posicionInicialProyectil.x) < 5) {
-            this.setPosition(cc.p(-(this.sistemaDisparo.proyectil.spriteProyectil.x - cc.winSize.width / 2), 0));
+            this.setPosition(cc.p(-(this.sistemaDisparo.posicionInicialProyectil.x - cc.winSize.width / 2), 0));
             this.estadoCamara = estadoApuntando;
+            this.sistemaDisparo.cargar(this.proyectiles[this.numeroProyectil]);
         }
    }, playEstadoDisparando:function(dt) {
-        this.setPosition(cc.p(-(this.sistemaDisparo.proyectil.spriteProyectil.x - cc.winSize.width / 2), 0));
-   }, colisionProyectilSuelo:function() {
-        if (this.proyectilActivo instanceof ProyectilOvni) {
-            this.eliminarProyectil(this.proyectilActivo);
+        if (this.proyectilActivo == null && this.proyectilSpriteActivo == null) {
+            this.estadoCamara = estadoYendoAMirar;
             return;
         }
-   }, colisionProyectilObjeto(arbiter, space) {
+        if (this.proyectilActivo != null) {
+            this.setPosition(cc.p(-(this.proyectilActivo.spriteProyectil.x - cc.winSize.width / 2), 0));
+            if (Math.abs(this.puntoEnfoqueObjetos.x - this.proyectilActivo.spriteProyectil.x) < 100) {
+                this.estadoCamara = estadoObservando;
+                this.numeroProyectil++;
+            }
+        }
+        else {
+            this.setPosition(cc.p(-(this.proyectilSpriteActivo.x - cc.winSize.width / 2), 0));
+            if (Math.abs(this.puntoEnfoqueObjetos.x - this.proyectilSpriteActivo.x) < 100) {
+                this.estadoCamara = estadoObservando;
+                this.numeroProyectil++;
+                this.proyectilSpriteActivo = null;
+            }
+        }
+
+   }, colisionProyectilSuelo:function(arbiter, space) {
+        if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
+            this.eliminarProyectil(this.proyectilActivo);
+            this.numeroProyectil++;
+            return;
+        }
+   }, colisionProyectilObjeto:function(arbiter, space) {
         var shapes = arbiter.getShapes();
-        if (this.proyectilActivo instanceof ProyectilOvni) {
+        if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
             this.eliminarProyectil(this.proyectilActivo);
             return;
         }
@@ -271,7 +335,7 @@ var GameLayer = cc.Layer.extend({
         shapes[0]["object"].colision(Math.max(Math.abs(shapes[0].body.getVel().x), Math.abs(shapes[0].body.getVel().y)));
    }, colisionProyectilAlien:function(arbiter, space) {
         var shapes = arbiter.getShapes();
-        if (this.proyectilActivo instanceof ProyectilOvni) {
+        if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
             this.eliminarProyectil(this.proyectilActivo);
             return;
         }
@@ -321,9 +385,13 @@ var GameLayer = cc.Layer.extend({
         this.proyectilesEliminar.push(proyectil);
    }, eliminarProyectiles:function() {
         for (var i = 0; i < this.proyectilesEliminar.length; i++) {
-            this.space.removeBody(this.proyectilesEliminar[i].bodyProyectil);
-            this.space.removeShape(this.proyectilesEliminar[i].shapeProyectil);
+            if (this.space.containsBody(this.proyectilesEliminar[i].bodyProyectil))
+                this.space.removeBody(this.proyectilesEliminar[i].bodyProyectil);
+            if (this.space.containsShape(this.proyectilesEliminar[i].shapeProyectil))
+                this.space.removeShape(this.proyectilesEliminar[i].shapeProyectil);
             this.removeChild(this.proyectilesEliminar[i].spriteProyectil);
+            if (this.proyectilesEliminar[i] instanceof ProyectilOvni)
+                this.proyectilesEliminar[i].eliminado = true;
             if (this.proyectilesEliminar[i] == this.proyectilActivo)
                 this.proyectilActivo = null;
         }
@@ -342,6 +410,10 @@ var GameLayer = cc.Layer.extend({
    }, actualizarDisparo:function(dt) {
         if (this.proyectilActivo instanceof ProyectilOvni)
             this.proyectilActivo.disparar(dt, this.aliens);
+   }, perderPartida:function() {
+        cc.director.pause();
+        //cc.audioEngine.stopMusic();
+        this.getParent().addChild(new GameOverLayer());
    }
 });
 

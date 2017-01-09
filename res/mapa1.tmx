@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="18">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="21">
  <tileset firstgid="1" name="tiles32" tilewidth="32" tileheight="32" tilecount="98" columns="14">
   <image source="tiles32.png" width="448" height="224"/>
  </tileset>
@@ -46,5 +46,14 @@
  </objectgroup>
  <objectgroup name="AliensSuit">
   <object id="17" x="2168" y="1520" width="30" height="30"/>
+ </objectgroup>
+ <objectgroup name="ProyectilesNormales">
+  <object id="18" x="760" y="1500" width="30" height="30"/>
+ </objectgroup>
+ <objectgroup name="ProyectilesMultiples">
+  <object id="19" x="672" y="1508" width="30" height="30"/>
+ </objectgroup>
+ <objectgroup name="ProyectilesOvni">
+  <object id="20" x="604" y="1504" width="30" height="30"/>
  </objectgroup>
 </map>
