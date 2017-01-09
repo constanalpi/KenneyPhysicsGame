@@ -25,6 +25,7 @@ var GameLayer = cc.Layer.extend({
     objetos:[],
     objetosEliminar:[],
     aliens:[],
+    aliensEliminar:[],
     puntoEnfoqueObjetos:null,
     estadoCamara:null,
     estadoAnimacionInicial:null,
@@ -58,6 +59,8 @@ var GameLayer = cc.Layer.extend({
                 null, null, this.colisionObjetoObjeto.bind(this), null);
         this.space.addCollisionHandler(tipoObjeto, tipoSuelo,
                 null, null, this.colisionObjetoSuelo.bind(this), null);
+        this.space.addCollisionHandler(tipoProyectil, tipoAlien,
+                null, null, this.colisionProyectilAlien.bind(this), null);
 
         this.cargarMapa();
         this.setPosition(cc.p(-(this.puntoEnfoqueObjetos.x - cc.winSize.width / 2),0));
@@ -68,7 +71,7 @@ var GameLayer = cc.Layer.extend({
         this.space.step(dt);
         this.actualizarCamara(dt);
         this.eliminarObjetos();
-
+        this.eliminarAliens();
     }, cargarMapa:function() {
         switch(this.nivel) {
             case 1:
@@ -218,8 +221,12 @@ var GameLayer = cc.Layer.extend({
    }, colisionObjetoSuelo:function(arbiter, space) {
         var shapes = arbiter.getShapes();
         shapes[0]["object"].colision(Math.max(Math.abs(shapes[0].body.getVel().x), Math.abs(shapes[0].body.getVel().y)));
-   }
-   , eliminarObjeto:function(objeto) {
+   }, colisionProyectilAlien:function(arbiter, space) {
+        var shapes = arbiter.getShapes();
+        shapes[1]["alien"].colision(Math.max(Math.max(Math.abs(shapes[0].body.getVel().x),
+                Math.abs(shapes[0].body.getVel().y)), Math.max(Math.abs(shapes[1].body.getVel().x),
+                Math.abs(shapes[1].body.getVel().y))));
+   }, eliminarObjeto:function(objeto) {
         this.objetosEliminar.push(objeto);
    }, eliminarObjetos:function() {
         for (var i = 0; i < this.objetosEliminar.length; i++) {
@@ -228,7 +235,17 @@ var GameLayer = cc.Layer.extend({
             this.space.removeBody(this.objetosEliminar[i].sprite.body);
             this.space.removeShape(this.objetosEliminar[i].shape);
         }
-        this.objetosEliminar =  [];
+        this.objetosEliminar = [];
+   }, eliminarAlien:function(alien) {
+        this.aliensEliminar.push(alien);
+   }, eliminarAliens:function() {
+        for (var i = 0; i < this.aliensEliminar.length; i++) {
+            this.aliens.splice(this.aliens.indexOf(this.aliensEliminar[i]), 1);
+            this.removeChild(this.aliensEliminar[i].sprite);
+            this.space.removeBody(this.aliensEliminar[i].sprite.body);
+            this.space.removeShape(this.aliensEliminar[i].shape);
+        }
+        this.aliensEliminar = [];
    }
 });
 

@@ -38,7 +38,7 @@ var AlienRedondo = cc.Class.extend({
         body.setPos(posicion);
         this.shape = new cp.CircleShape(body,
                 (this.sprite.getContentSize().width * this.sprite.getScaleX())/2, cp.vzero);
-        this.shape["object"] = this;
+        this.shape["alien"] = this;
         this.shape.setFriction(1);
         this.shape.setCollisionType(tipoObjeto);
         // forma dinamica
@@ -49,5 +49,12 @@ var AlienRedondo = cc.Class.extend({
         this.gameLayer.space.addShape(this.shape);
         // añadir sprite a la capa
         this.gameLayer.addChild(this.sprite, 10);
+    }, colision:function(velocidad) {
+        this.vida -= velocidad;
+        console.log(this.vida);
+        if (this.vida < 0 && !this.eliminado) {
+            this.gameLayer.eliminarAlien(this);
+            this.eliminado = true;
+        }
     }
 });
