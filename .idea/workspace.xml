@@ -42,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameScene.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GameScene.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GameScene.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="241" column="55" selection-start-line="241" selection-start-column="55" selection-end-line="241" selection-end-column="55" />
+            <state vertical-scroll-proportion="0.5277778">
+              <caret line="239" column="110" selection-start-line="239" selection-start-column="110" selection-end-line="239" selection-end-column="110" />
               <folding />
             </state>
           </provider>
@@ -75,18 +75,18 @@
       <file leaf-file-name="Objeto.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Objeto.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+            <state vertical-scroll-proportion="-6.862069">
+              <caret line="89" column="34" selection-start-line="89" selection-start-column="34" selection-end-line="89" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AlienRedondo.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AlienRedondo.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AlienRedondo.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7934028">
-              <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="52" column="46" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -130,8 +130,8 @@
         <option value="$PROJECT_DIR$/project.json" />
         <option value="$PROJECT_DIR$/src/resource.js" />
         <option value="$PROJECT_DIR$/src/Objeto.js" />
-        <option value="$PROJECT_DIR$/src/GameScene.js" />
         <option value="$PROJECT_DIR$/src/AlienRedondo.js" />
+        <option value="$PROJECT_DIR$/src/GameScene.js" />
       </list>
     </option>
   </component>
@@ -799,24 +799,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Objeto.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameScene.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="241" column="55" selection-start-line="241" selection-start-column="55" selection-end-line="241" selection-end-column="55" />
+        <state vertical-scroll-proportion="-6.862069">
+          <caret line="89" column="34" selection-start-line="89" selection-start-column="34" selection-end-line="89" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AlienRedondo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7934028">
-          <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="46" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GameScene.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5277778">
+          <caret line="239" column="110" selection-start-line="239" selection-start-column="110" selection-end-line="239" selection-end-column="110" />
           <folding />
         </state>
       </provider>

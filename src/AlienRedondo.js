@@ -50,6 +50,7 @@ var AlienRedondo = cc.Class.extend({
         // añadir sprite a la capa
         this.gameLayer.addChild(this.sprite, 10);
     }, colision:function(velocidad) {
+        if (Math.abs(velocidad) < 150) return;
         this.vida -= velocidad;
         console.log(this.vida);
         if (this.vida < 0 && !this.eliminado) {

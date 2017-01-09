@@ -87,7 +87,7 @@ var Objeto = cc.Class.extend({
                 break;
         }
     }, colision:function(fuerza) {
-        if (Math.abs(fuerza) < 100) return;
+        if (Math.abs(fuerza) < 150) return;
         switch(this.tipo) {
             case tipoCristal:
                 this.vida -= fuerza * 1.5;
