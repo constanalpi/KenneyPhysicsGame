@@ -33,7 +33,17 @@ var res = {
     alienBlue_round: "res/alienBlue_round.png",
     alienGreen_round: "res/alienGreen_round.png",
     alienPink_round: "res/alienPink_round.png",
-    alienYellow_round: "res/alienYellow_round.png"
+    alienYellow_round: "res/alienYellow_round.png",
+    alienBeige_square: "res/alienBeige_square.png",
+    alienBlue_square: "res/alienBlue_square.png",
+    alienGreen_square: "res/alienGreen_square.png",
+    alienPink_square: "res/alienPink_square.png",
+    alienYellow_square: "res/alienYellow_square.png",
+    alienBeige_suit: "res/alienBeige_suit.png",
+    alienBlue_suit: "res/alienBlue_suit.png",
+    alienGreen_suit: "res/alienGreen_suit.png",
+    alienPink_suit: "res/alienPink_suit.png",
+    alienYellow_suit: "res/alienYellow_suit.png"
 };
 
 var g_resources = [];

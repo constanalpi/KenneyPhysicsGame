@@ -116,8 +116,26 @@ var GameLayer = cc.Layer.extend({
         this.cargarMaderas();
         this.cargarPiedras();
         this.cargarAliensRedondos();
+        this.cargarAliensCuadrados();
+        this.cargarAliensSuit();
         this.cargarSistemaDisparo();
         this.cargarPuntoEnfoqueObjetos();
+    }, cargarAliensSuit:function() {
+        var grupoAliensSuit = this.mapa.getObjectGroup("AliensSuit");
+        var aliensSuitArray = grupoAliensSuit.getObjects();
+        for (var i = 0; i < aliensSuitArray.length; i++) {
+            var alienSuit = new AlienCuadrado(this, cc.p(aliensSuitArray[i]["x"],
+                    aliensSuitArray[i]["y"]), 1000);
+            this.aliens.push(alienSuit);
+        }
+    }, cargarAliensCuadrados:function() {
+        var grupoAliensCuadrados = this.mapa.getObjectGroup("AliensCuadrados");
+        var aliensCuadradosArray = grupoAliensCuadrados.getObjects();
+        for (var i = 0; i < aliensCuadradosArray.length; i++) {
+            var alienCuadrado = new AlienCuadrado(this, cc.p(aliensCuadradosArray[i]["x"],
+                    aliensCuadradosArray[i]["y"]), 500);
+            this.aliens.push(alienCuadrado);
+        }
     }, cargarAliensRedondos:function() {
         var grupoAliensRedondos = this.mapa.getObjectGroup("AliensRedondos");
         var aliensRedondosArray = grupoAliensRedondos.getObjects();
@@ -237,7 +255,7 @@ var GameLayer = cc.Layer.extend({
                 Math.abs(shapes[1].body.getVel().y))));
    }, colisionAlienSuelo:function(arbiter, space) {
         var shapes = arbiter.getShapes();
-        shapes[0]["alien"].colision(Math.max(Math.abs(shapes[0].getVel().x), Math.abs(shapes[0].getVel().y)));
+        shapes[0]["alien"].colision(Math.max(Math.abs(shapes[0].body.getVel().x), Math.abs(shapes[0].body.getVel().y)));
    }, eliminarObjeto:function(objeto) {
         this.objetosEliminar.push(objeto);
    }, eliminarObjetos:function() {

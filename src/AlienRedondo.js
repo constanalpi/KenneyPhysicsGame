@@ -12,7 +12,7 @@ var AlienRedondo = cc.Class.extend({
         this.vida = 1000;
 
         // Crear Sprite - Cuerpo y forma
-        var aleatorio = Math.floor(Math.random() * 3);
+        var aleatorio = Math.floor(Math.random() * 4);
         switch(aleatorio) {
             case 0:
                 this.sprite = new cc.PhysicsSprite(res.alienBeige_round);
@@ -26,10 +26,11 @@ var AlienRedondo = cc.Class.extend({
             case 3:
                 this.sprite = new cc.PhysicsSprite(res.alienPink_round);
                 break;
-            default:
+            case 4:
                 this.sprite = new cc.PhysicsSprite(res.alienYellow_round);
                 break;
         }
+
         this.sprite.setScaleX(.5);
         this.sprite.setScaleY(.5);
         var body = new cp.Body(1, cp.momentForCircle(1, 0, (
@@ -52,7 +53,6 @@ var AlienRedondo = cc.Class.extend({
     }, colision:function(velocidad) {
         if (Math.abs(velocidad) < 150) return;
         this.vida -= velocidad;
-        console.log(this.vida);
         if (this.vida < 0 && !this.eliminado) {
             this.gameLayer.eliminarAlien(this);
             this.eliminado = true;
