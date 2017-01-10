@@ -101,7 +101,6 @@ var GameLayer = cc.Layer.extend({
         this.eliminarAliens();
         this.eliminarProyectiles();
         this.eliminarShapes();
-        console.log(this.estadoCamara);
     }, cargarMapa:function() {
         switch(this.nivel) {
             case 1:
@@ -315,7 +314,6 @@ var GameLayer = cc.Layer.extend({
         if (this.proyectilActivo == null && this.proyectilSpriteActivo == null || this.proyectilParado(dt)) {
             this.estadoCamara = estadoYendoAMirar;
             this.numeroProyectil++;
-            console.log("we are here " + this.numeroProyectil);
             return;
         }
         if (this.proyectilActivo != null) {

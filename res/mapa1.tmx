@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="129">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="130">
  <tileset firstgid="1" name="tiles32" tilewidth="32" tileheight="32" tilecount="98" columns="14">
   <image source="tiles32.png" width="448" height="224"/>
  </tileset>
@@ -19,6 +19,9 @@
   </object>
   <object id="21" x="2639" y="220">
    <polyline points="0,0 0,1344"/>
+  </object>
+  <object id="129" x="24.2424" y="30.303">
+   <polyline points="0,0 9.09091,1542.42"/>
   </object>
  </objectgroup>
  <objectgroup name="Cristal">
