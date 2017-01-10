@@ -184,6 +184,8 @@ var GameLayer = cc.Layer.extend({
             var proyectilOvni = new ProyectilOvni(this, cc.p(proyectilesOvni[i]["x"], proyectilesOvni[i]["y"]));
             this.proyectiles.push(proyectilOvni);
         }
+        this.proyectiles.sort(function(proyectilA, proyectilB) {return proyectilB.spriteProyectil.x - proyectilA.spriteProyectil.x});
+        //this.proyectiles.reverse();
         this.numeroProyectil = 0;
 
     }, cargarAliensSuit:function() {
@@ -304,9 +306,9 @@ var GameLayer = cc.Layer.extend({
         }
    }, playEstadoVolviendoAlDisparador:function(dt) {
         this.setPosition(cc.p(this.getPosition().x + 4,0));
-        if (Math.abs(Math.abs(this.getPosition().x - cc.winSize.width / 2)
+        if (Math.abs(Math.abs(this.getPosition().x - cc.winSize.width / 2 - 150)
                     - this.sistemaDisparo.posicionInicialProyectil.x) < 5) {
-            this.setPosition(cc.p(-(this.sistemaDisparo.posicionInicialProyectil.x - cc.winSize.width / 2), 0));
+            this.setPosition(cc.p(-(this.sistemaDisparo.posicionInicialProyectil.x - cc.winSize.width / 2 - 150), 0));
             this.estadoCamara = estadoApuntando;
             this.sistemaDisparo.cargar(this.proyectiles[this.numeroProyectil]);
         }

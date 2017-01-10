@@ -8,8 +8,8 @@ ctor:function(gameLayer, posicion) {
     this.gameLayer = gameLayer;
 
     this.spriteProyectil = new cc.PhysicsSprite(res.pelota);
-    this.spriteProyectil.setScaleX(1.4);
-    this.spriteProyectil.setScaleY(1.4);
+    this.spriteProyectil.setScaleX(.04);
+    this.spriteProyectil.setScaleY(.04);
     this.bodyProyectil = new cp.Body(5, cp.momentForCircle(
             1, 0, (this.spriteProyectil.width * this.spriteProyectil.getScaleX()) / 2, cp.vzero));
     this.bodyProyectil.p = posicion;
