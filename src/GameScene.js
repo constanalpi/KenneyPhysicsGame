@@ -83,6 +83,8 @@ var GameLayer = cc.Layer.extend({
                 null, null, this.colisionDisparoOvniSuelo.bind(this), null);
         this.space.addCollisionHandler(tipoAlien, tipoPincho,
                 null, null, this.colisionAlienPincho.bind(this), null);
+        this.space.addCollisionHandler(tipoProyectil, tipoPincho,
+                null, null, this.colisionProyectilPincho.bind(this), null);
 
         this.cargarMapa();
         this.setPosition(cc.p(-(this.puntoEnfoqueObjetos.x - cc.winSize.width / 2),0));
@@ -136,9 +138,12 @@ var GameLayer = cc.Layer.extend({
         this.cargarCristales();
         this.cargarMaderas();
         this.cargarPiedras();
+        console.log(this.aliens);
+        this.aliens = [];
         this.cargarAliensRedondos();
         this.cargarAliensCuadrados();
         this.cargarAliensSuit();
+        console.log(this.aliens);
         this.cargarProyectiles();
         this.cargarSistemaDisparo();
         this.cargarPuntoEnfoqueObjetos();
@@ -158,6 +163,7 @@ var GameLayer = cc.Layer.extend({
             this.space.addStaticShape(shapePincho);
         }
     }, cargarProyectiles:function() {
+        this.proyectiles = [];
         var grupoProyectilesNormales = this.mapa.getObjectGroup("ProyectilesNormales");
         var proyectilesNormales = grupoProyectilesNormales.getObjects();
         for (var i = 0; i < proyectilesNormales.length; i++) {
@@ -326,7 +332,13 @@ var GameLayer = cc.Layer.extend({
         }
 
    }, colisionAlienPincho:function(arbiter, space) {
-        arbiter.getShapes[0].colision(10000);
+        arbiter.getShapes()[0].colision(10000);
+   }, colisionProyectilPincho(arbiter, space) {
+        if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
+            this.eliminarProyectil(this.proyectilActivo);
+            this.numeroProyectil++;
+            return;
+        }
    }, colisionProyectilSuelo:function(arbiter, space) {
         if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
             this.eliminarProyectil(this.proyectilActivo);
@@ -447,7 +459,7 @@ var GameScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
         var layer = new GameLayer();
-        this.addChild(layer, 0, idCapaJuego);
+        this.addChild(layer);
         //var controlesLayer = new ControlesLayer();
         //this.addChild(controlesLayer, 0, idCapaControles);
     }
