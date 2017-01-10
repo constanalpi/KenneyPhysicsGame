@@ -43,6 +43,7 @@ var ProyectilOvni = cc.Class.extend({
         shapeDisparoOvni["mySprite"] = spriteDisparoOvni;
         shapeDisparoOvni.setFriction(1);
         shapeDisparoOvni.setCollisionType(tipoDisparoOvni);
+        cc.audioEngine.playEffect(res.laser_wav);
         this.gameLayer.addChild(spriteDisparoOvni);
         this.gameLayer.space.addBody(bodyDisparoOvni);
         this.gameLayer.space.addShape(shapeDisparoOvni);

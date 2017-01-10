@@ -32,6 +32,7 @@ var GameLayer = cc.Layer.extend({
     proyectilesEliminar:[],
     shapesEliminar:[],
     proyectiles:[],
+    spritesAnimacionesEliminar:[],
     puntoEnfoqueObjetos:null,
     estadoCamara:null,
     estadoAnimacionInicial:null,
@@ -51,6 +52,9 @@ var GameLayer = cc.Layer.extend({
         cc.eventManager.addListener({event: cc.EventListener.MOUSE, onMouseDown: this.procesarMouseDown}, this);
         cc.eventManager.addListener({event: cc.EventListener.MOUSE, onMouseMove: this.procesarMouseMove}, this);
         cc.eventManager.addListener({event: cc.EventListener.MOUSE, onMouseUp: this.procesarMouseUp}, this);
+
+        // ------------ CACHEAR ------------
+        cc.spriteFrameCache.addSpriteFrames(res.explosion_nave_plist);
 
         // Coger el nivel del director
         this.nivel = cc.director["nivel"];
@@ -101,6 +105,7 @@ var GameLayer = cc.Layer.extend({
         this.eliminarAliens();
         this.eliminarProyectiles();
         this.eliminarShapes();
+        this.eliminarSpritesAnimaciones();
     }, cargarMapa:function() {
         switch(this.nivel) {
             case 1:
@@ -349,12 +354,14 @@ var GameLayer = cc.Layer.extend({
         arbiter.getShapes()[0].colision(10000);
    }, colisionProyectilPincho(arbiter, space) {
         if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
+            this.animacionExplosionNave(this.proyectilActivo.spriteProyectil.getPosition());
             this.eliminarProyectil(this.proyectilActivo);
             this.numeroProyectil++;
             return;
         }
    }, colisionProyectilSuelo:function(arbiter, space) {
         if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
+            this.animacionExplosionNave(this.proyectilActivo.spriteProyectil.getPosition());
             this.eliminarProyectil(this.proyectilActivo);
             this.numeroProyectil++;
             return;
@@ -362,6 +369,7 @@ var GameLayer = cc.Layer.extend({
    }, colisionProyectilObjeto:function(arbiter, space) {
         var shapes = arbiter.getShapes();
         if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
+            this.animacionExplosionNave(this.proyectilActivo.spriteProyectil.getPosition());
             this.eliminarProyectil(this.proyectilActivo);
             return;
         }
@@ -384,6 +392,7 @@ var GameLayer = cc.Layer.extend({
    }, colisionProyectilAlien:function(arbiter, space) {
         var shapes = arbiter.getShapes();
         if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
+            this.animacionExplosionNave(this.proyectilActivo.spriteProyectil.getPosition());
             this.eliminarProyectil(this.proyectilActivo);
             return;
         }
@@ -423,6 +432,7 @@ var GameLayer = cc.Layer.extend({
         this.aliensEliminar.push(alien);
    }, eliminarAliens:function() {
         for (var i = 0; i < this.aliensEliminar.length; i++) {
+            cc.audioEngine.playEffect(res.muerte_alien_wav);
             this.aliens.splice(this.aliens.indexOf(this.aliensEliminar[i]), 1);
             this.removeChild(this.aliensEliminar[i].sprite);
             this.space.removeBody(this.aliensEliminar[i].sprite.body);
@@ -466,6 +476,37 @@ var GameLayer = cc.Layer.extend({
         cc.director.pause();
         //cc.audioEngine.stopMusic();
         this.getParent().addChild(new WinLayer());
+   }, animacionExplosionNave:function(posicion) {
+        var framesAnimacion = [];
+        for (var i = 1; i <= 3; i++) {
+            var str = "explosion_nave_0" + i + ".png";
+            var frame = cc.spriteFrameCache.getSpriteFrame(str);
+            framesAnimacion.push(frame);
+        }
+        var animacion = new cc.Animation(framesAnimacion, 0.2);
+        var actionAnimacionBucle = new cc.Animate(animacion);
+        console.log(actionAnimacionBucle);
+        sprite = new cc.Sprite("#explosion_nave_01.png");
+        sprite.setScaleX(0.1);
+        sprite.setScaleY(0.1);
+        sprite.setPosition(posicion);
+        sprite["myAnimacion"] = actionAnimacionBucle;
+        cc.audioEngine.playEffect(res.explosion_nave_mp3);
+        sprite.runAction(actionAnimacionBucle);
+        this.addChild(sprite, 100);
+        this.spritesAnimacionesEliminar.push(sprite);
+        console.log(sprite["myAnimacion"]);
+   }, eliminarSpritesAnimaciones:function() {
+        var spritesEliminar = [];
+        for (var i = 0; i < this.spritesAnimacionesEliminar.length; i++) {
+            if (this.spritesAnimacionesEliminar[i]["myAnimacion"].isDone()) {
+                this.spritesAnimacionesEliminar[i].removeFromParent();
+                spritesEliminar.push(this.spritesAnimacionesEliminar[i]);
+            }
+        }
+        for (var j = 0; j < spritesEliminar.length; j++) {
+            this.spritesAnimacionesEliminar.splice(this.spritesAnimacionesEliminar.indexOf(spritesEliminar[j]), 1);
+        }
    }
 });
 
