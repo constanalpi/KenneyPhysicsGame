@@ -55,6 +55,7 @@ var res = {
     explosion_nave_mp3: "res/explosion_nave.mp3",
     muerte_alien_wav: "res/muerte_alien.wav",
     laser_wav: "res/laser.wav",
+    lanzamiento_wav: "res/lanzamiento.wav",
     explosion_nave_plist: "res/explosion_nave.plist",
     explosion_nave_png: "res/explosion_nave.png"
 };

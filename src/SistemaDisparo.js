@@ -112,6 +112,7 @@ ctor:function(gameLayer, posicion) {
                 impulse = cc.pMult(vector, 50);
                 //bPos = this.proyectil.spriteProyectil.body.GetWorldCenter();
         this.proyectil.spriteProyectil.body.applyImpulse(impulse, cp.v(0, 0));
+        cc.audioEngine.playEffect(res.lanzamiento_wav);
         this.apuntando = false;
         this.gameLayer.proyectilActivo = this.proyectil;
         return this.proyectil;
