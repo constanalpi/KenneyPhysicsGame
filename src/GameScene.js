@@ -7,6 +7,7 @@ var tipoObjeto = 2;
 var tipoSuelo = 3;
 var tipoAlien = 4;
 var tipoDisparoOvni = 5;
+var tipoPincho = 6;
 
 var idCapaJuego = 1;
 var idCapaControles = 2;
@@ -80,6 +81,8 @@ var GameLayer = cc.Layer.extend({
                 null, null, this.colisionDisparoOvniObjeto.bind(this), null);
         this.space.addCollisionHandler(tipoDisparoOvni, tipoSuelo,
                 null, null, this.colisionDisparoOvniSuelo.bind(this), null);
+        this.space.addCollisionHandler(tipoAlien, tipoPincho,
+                null, null, this.colisionAlienPincho.bind(this), null);
 
         this.cargarMapa();
         this.setPosition(cc.p(-(this.puntoEnfoqueObjetos.x - cc.winSize.width / 2),0));
@@ -123,13 +126,13 @@ var GameLayer = cc.Layer.extend({
                         parseInt(suelo.y) - parseInt(puntos[j].y)),
                     cp.v(parseInt(suelo.x) + parseInt(puntos[j + 1].x),
                         parseInt(suelo.y) - parseInt(puntos[j + 1].y)),
-                    1);
+                    15);
                 shapeSuelo.setFriction(1);
                 shapeSuelo.setCollisionType(tipoSuelo);
                 this.space.addStaticShape(shapeSuelo);
             }
         }
-
+        this.cargarPinchos();
         this.cargarCristales();
         this.cargarMaderas();
         this.cargarPiedras();
@@ -139,6 +142,21 @@ var GameLayer = cc.Layer.extend({
         this.cargarProyectiles();
         this.cargarSistemaDisparo();
         this.cargarPuntoEnfoqueObjetos();
+    }, cargarPinchos:function() {
+        pincho = this.mapa.getObjectGroup("Pinchos").getObjects()[0];
+        puntosPinchos = pincho.polylinePoints;
+        for (var i = 0; i < puntosPinchos.length - 1; i++) {
+            var bodyPincho = new cp.StaticBody();
+            var shapePincho = new cp.SegmentShape(bodyPincho,
+                cp.v(parseInt(pincho.x) + parseInt(puntosPinchos[i].x),
+                    parseInt(pincho.y) - parseInt(puntosPinchos[i].y)),
+                cp.v(parseInt(pincho.x) + parseInt(puntosPinchos[i + 1].x),
+                    parseInt(pincho.y) - parseInt(puntosPinchos[i + 1].y)),
+                15);
+            shapePincho.setFriction(1);
+            shapePincho.setCollisionType(tipoPincho);
+            this.space.addStaticShape(shapePincho);
+        }
     }, cargarProyectiles:function() {
         var grupoProyectilesNormales = this.mapa.getObjectGroup("ProyectilesNormales");
         var proyectilesNormales = grupoProyectilesNormales.getObjects();
@@ -266,13 +284,15 @@ var GameLayer = cc.Layer.extend({
    }, playEstadoObservandoCamara:function(dt) {
         this.cronometroCamara += dt;
         if (this.cronometroCamara >= 5) {
-            console.log(this.numeroProyectil);
-            console.log(this.proyectiles.length);
             if (this.numeroProyectil >= this.proyectiles.length) {
-                console.log(this.aliens.length);
                 if (this.aliens.length > 0)
                     this.perderPartida();
+                else
+                    this.ganarPartida();
             }
+            else if (this.aliens.length == 0)
+                this.ganarPartida();
+
             this.estadoCamara = estadoVolviendoAlDisparador;
             this.cronometroCamara = 0;
         }
@@ -305,6 +325,8 @@ var GameLayer = cc.Layer.extend({
             }
         }
 
+   }, colisionAlienPincho:function(arbiter, space) {
+        arbiter.getShapes[0].colision(10000);
    }, colisionProyectilSuelo:function(arbiter, space) {
         if (this.proyectilActivo instanceof ProyectilOvni && arbiter.getShapes()[0] == this.proyectilActivo.shapeProyectil) {
             this.eliminarProyectil(this.proyectilActivo);
@@ -414,6 +436,10 @@ var GameLayer = cc.Layer.extend({
         cc.director.pause();
         //cc.audioEngine.stopMusic();
         this.getParent().addChild(new GameOverLayer());
+   }, ganarPartida:function() {
+        cc.director.pause();
+        //cc.audioEngine.stopMusic();
+        this.getParent().addChild(new WinLayer());
    }
 });
 

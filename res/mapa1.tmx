@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="21">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="23">
  <tileset firstgid="1" name="tiles32" tilewidth="32" tileheight="32" tilecount="98" columns="14">
   <image source="tiles32.png" width="448" height="224"/>
  </tileset>
@@ -10,50 +10,58 @@
  </layer>
  <layer name="Patrones Terreno" width="100" height="50">
   <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMA6DB+ndejcMVTAAAAAAAAAAAAAAAAAAAAAAAAICv6qkDOucBLQ==
+   eJzt3MEJhAAAA0HBCqzk+u/ODvQTuAVnIBXsP8cBAADw7ByNjWs0NvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aPliz1+L/unVY/Vr4BtdgNYFjPd
   </data>
  </layer>
  <objectgroup name="Suelos">
-  <object id="1" x="-3" y="1568.75">
+  <object id="1" x="-3" y="1582.75">
    <polyline points="0,0 3192,0"/>
+  </object>
+  <object id="21" x="2639" y="220">
+   <polyline points="0,0 0,1344"/>
   </object>
  </objectgroup>
  <objectgroup name="Cristal">
-  <object id="4" x="1960.76" y="1533.85" width="50" height="25"/>
-  <object id="9" x="1969" y="1453.24" width="30" height="30"/>
+  <object id="4" x="2256.76" y="1533.85" width="50" height="25"/>
+  <object id="9" x="2265" y="1453.24" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="Madera">
-  <object id="5" x="1960.76" y="1496.76" width="50" height="25"/>
-  <object id="10" x="2017" y="1485.42" width="30" height="30"/>
+  <object id="5" x="2256.76" y="1496.76" width="50" height="25"/>
+  <object id="10" x="2313" y="1485.42" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="Piedra">
-  <object id="7" x="2024.7" y="1538.97" width="50" height="25"/>
-  <object id="11" x="1970.94" y="1533.42" width="30" height="30"/>
+  <object id="7" x="2320.7" y="1538.97" width="50" height="25"/>
+  <object id="11" x="2266.94" y="1533.42" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="SistemaDisparo">
-  <object id="12" x="956" y="1515" width="50" height="50"/>
+  <object id="12" x="806" y="1517" width="50" height="50"/>
  </objectgroup>
  <objectgroup name="PuntoEnfoqueObjetos">
-  <object id="14" x="2044" y="1360" width="10" height="10"/>
+  <object id="14" x="2340" y="1360" width="10" height="10"/>
  </objectgroup>
  <objectgroup name="AliensRedondos">
-  <object id="15" x="1856" y="1492" width="30" height="30">
+  <object id="15" x="2152" y="1492" width="30" height="30">
    <ellipse/>
   </object>
  </objectgroup>
  <objectgroup name="AliensCuadrados">
-  <object id="16" x="2108" y="1512" width="30" height="30"/>
+  <object id="16" x="2404" y="1512" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="AliensSuit">
-  <object id="17" x="2168" y="1520" width="30" height="30"/>
+  <object id="17" x="2464" y="1520" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="ProyectilesNormales">
-  <object id="18" x="760" y="1500" width="30" height="30"/>
+  <object id="18" x="610" y="1502" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="ProyectilesMultiples">
-  <object id="19" x="672" y="1508" width="30" height="30"/>
+  <object id="19" x="522" y="1510" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="ProyectilesOvni">
-  <object id="20" x="604" y="1504" width="30" height="30"/>
+  <object id="20" x="454" y="1506" width="30" height="30"/>
+ </objectgroup>
+ <objectgroup name="Pinchos">
+  <object id="22" x="1384" y="1578">
+   <polyline points="0,0 240,0"/>
+  </object>
  </objectgroup>
 </map>
