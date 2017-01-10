@@ -3,11 +3,6 @@
  <tileset firstgid="1" name="tiles32" tilewidth="32" tileheight="32" tilecount="98" columns="14">
   <image source="tiles32.png" width="448" height="224"/>
  </tileset>
- <layer name="Patrones Fondo" width="100" height="50">
-  <data encoding="base64" compression="zlib">
-   eJztw0ENAAAMA6HTVP/iJmMfSFg1VVVVVVVVVVVVVVVVVVVVVVVVVd8fpF3Qvg==
-  </data>
- </layer>
  <layer name="Patrones Terreno" width="100" height="50">
   <data encoding="base64" compression="zlib">
    eJzt3MEJhAAAA0HBCqzk+u/ODvQTuAVnIBXsP8cBAADw7ByNjWs0NvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo0aPliz1+L/unVY/Vr4BtdgNYFjPd

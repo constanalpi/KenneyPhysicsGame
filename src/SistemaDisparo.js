@@ -36,13 +36,13 @@ ctor:function(gameLayer, posicion) {
     this.slingRubber1.setPosition(cc.p(posicion.x - 30, posicion.y + 120));
     this.slingRubber1.setScaleY(0.7);
     this.slingRubber1.setAnchorPoint(cc.p(1, 0.5));
-    this.gameLayer.addChild(this.slingRubber1, 20);
+    this.gameLayer.addChild(this.slingRubber1, 19);
 
     this.slingRubber2 = new cc.Sprite.create(res.sling3);
     this.slingRubber2.setPosition(cc.p(posicion.x - 2, posicion.y + 117));
     this.slingRubber2.setScaleY(0.7);
     this.slingRubber2.setAnchorPoint(cc.p(1, 0.5));
-    this.gameLayer.addChild(this.slingRubber2, 20);
+    this.gameLayer.addChild(this.slingRubber2, 19);
 
 }, mouseDown:function(posicion) {
 
@@ -57,7 +57,7 @@ ctor:function(gameLayer, posicion) {
         this.slingRubber3.setScaleX(2);
         this.slingRubber3.setScaleY(1.5);
         this.slingRubber3.setAnchorPoint(cc.p(0, 0.5));
-        this.gameLayer.addChild(this.slingRubber3, 20);
+        this.gameLayer.addChild(this.slingRubber3, 18);
         this.apuntando = true;
     }
 }, mouseMove:function(posicion) {
@@ -109,7 +109,7 @@ ctor:function(gameLayer, posicion) {
         //this.gameLayer.space.addShape(this.proyectil.spriteProyectil.shape);
 
         var vector = cc.pSub(this.posicionInicialProyectil, this.proyectil.spriteProyectil.getPosition()),
-                impulse = cc.pMult(vector, 50);
+                impulse = cc.pMult(vector, 55);
                 //bPos = this.proyectil.spriteProyectil.body.GetWorldCenter();
         this.proyectil.spriteProyectil.body.applyImpulse(impulse, cp.v(0, 0));
         cc.audioEngine.playEffect(res.lanzamiento_wav);
@@ -132,6 +132,6 @@ ctor:function(gameLayer, posicion) {
     this.slingRubber2.setPosition(cc.p(this.posicionInicial.x - 2, this.posicionInicial.y + 117));
     this.slingRubber2.setScaleY(0.7);
     this.slingRubber2.setAnchorPoint(cc.p(1, 0.5));
-    this.gameLayer.addChild(this.slingRubber2, 20);
+    this.gameLayer.addChild(this.slingRubber2, 18);
 }
 });

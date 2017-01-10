@@ -21,6 +21,9 @@ var WinLayer = cc.LayerColor.extend({
     pulsarSiguiente:function (sender) {
         // Volver a ejecutar la escena Prinicpal
         cc.director["nivel"]++;
+        if (cc.director["nivel"] > 4)
+            cc.director["nivel"] = 1;
+        cc.director.resume();
         cc.director.runScene(new GameScene());
     }
 });

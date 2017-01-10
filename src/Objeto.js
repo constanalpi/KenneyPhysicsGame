@@ -1,5 +1,12 @@
 var formaRectanguloTumbado = 1;
 var formaCuadrado = 2;
+var formaRectanguloDePie = 3;
+
+var estadoIntacto = 0;
+var estadoMedioRoto = 1;
+var estadoRoto = 2;
+var estadoMedioRoto = 3;
+var estadoDestruido = 4;
 
 var Objeto = cc.Class.extend({
     gameLayer:null,
@@ -9,12 +16,21 @@ var Objeto = cc.Class.extend({
     forma:null,
     vida:null,
     eliminado:false,
+    estado:null,
+    debrisGlassList:[],
+    debrisStoneList:[],
+    debrisWoodList:[],
     ctor:function(gameLayer, posicion, tipo, forma) {
 
         this.forma = forma;
         this.tipo = tipo;
         this.vida = 1200;
         this.gameLayer = gameLayer;
+        this.estado = estadoIntacto;
+
+        this.debrisGlassList = [res.debrisGlass_1, res.debrisGlass_2, res.debrisGlass_3];
+        this.debrisStoneList = [res.debrisStone_1, res.debrisStone_2, res.debrisStone_3];
+        this.debrisWoodList = [res.debrisWood_1, res.debrisWood_2, res.debrisWood_3];
 
         // Crear Sprite - Cuerpo y forma
         this.cargarSprite();
@@ -45,6 +61,9 @@ var Objeto = cc.Class.extend({
                     case formaCuadrado:
                         this.sprite = new cc.PhysicsSprite(res.glass21);
                         break;
+                    case formaRectanguloDePie:
+                        this.sprite = new cc.PhysicsSprite(res.glass31);
+                        break;
                 }
                 break;
             case tipoMadera:
@@ -55,6 +74,9 @@ var Objeto = cc.Class.extend({
                     case formaCuadrado:
                         this.sprite = new cc.PhysicsSprite(res.wood21);
                         break;
+                    case formaRectanguloDePie:
+                        this.sprite = new cc.PhysicsSprite(res.wood31);
+                        break;
                 }
                 break;
             case tipoPiedra:
@@ -64,6 +86,9 @@ var Objeto = cc.Class.extend({
                         break;
                     case formaCuadrado:
                         this.sprite = new cc.PhysicsSprite(res.stone21);
+                        break;
+                    case formaRectanguloDePie:
+                        this.sprite = new cc.PhysicsSprite(res.stone31);
                         break;
                 }
                 break;
@@ -87,6 +112,7 @@ var Objeto = cc.Class.extend({
                 break;
         }
     }, colision:function(fuerza) {
+        var estadoAntesDelGolpe = this.estado;
         if (Math.abs(fuerza) < 150) return;
         switch(this.tipo) {
             case tipoCristal:
@@ -100,6 +126,32 @@ var Objeto = cc.Class.extend({
                 break;
         }
         this.actualizarEstado();
+        this.generarDebris(estadoAntesDelGolpe);
+    }, generarDebris:function(estadoAntesDelGolpe) {
+        if (this.estado != estadoAntesDelGolpe) {
+            for (var i = 0; i <= this.estado; i++)
+                this.generarDebri();
+        }
+    }, generarDebri:function() {
+        sprite = new cc.PhysicsSprite(this.obtenerDebris());
+        sprite.setScaleX(.25);
+        sprite.setScaleY(.25);
+        body = new cp.Body(1, cp.momentForBox(1,
+                           sprite.width * sprite.getScaleX(),
+                           sprite.height * sprite.getScaleY()));
+        body.applyImpulse(cp.v(200.5 * (Math.random() - 0.5), 200.5 * (Math.random() - 0.5)), cp.v(0, 0));
+        sprite.setBody(body);
+        body.setPos(this.sprite.getPosition());
+        this.gameLayer.spritesDebris.push(sprite);
+    }, obtenerDebris:function() {
+        switch(this.tipo) {
+            case tipoCristal:
+                return this.debrisGlassList[Math.floor(Math.random() * 3)];
+            case tipoMadera:
+                return this.debrisWoodList[Math.floor(Math.random() * 3)];
+            case tipoPiedra:
+                return this.debrisStoneList[Math.floor(Math.random() * 3)];
+        }
     }, actualizarEstado:function() {
         if (this.vida > 800)
             this.cargarEstadoIntacto();
@@ -110,6 +162,7 @@ var Objeto = cc.Class.extend({
         else
             this.destruido();
     }, cargarEstadoIntacto:function() {
+        this.estado = estadoIntacto;
         var newSprite;
         switch(this.tipo) {
             case tipoCristal:
@@ -119,6 +172,9 @@ var Objeto = cc.Class.extend({
                         break;
                     case formaCuadrado:
                         newSprite = new cc.PhysicsSprite(res.glass21);
+                        break;
+                    case formaRectanguloDePie:
+                        newSprite = new cc.PhysicsSprite(res.glass31);
                         break;
                 }
                 break;
@@ -130,6 +186,9 @@ var Objeto = cc.Class.extend({
                     case formaCuadrado:
                         newSprite = new cc.PhysicsSprite(res.wood21);
                         break;
+                    case formaRectanguloDePie:
+                        newSprite = new cc.PhysicsSprite(res.wood31);
+                        break;
                 }
                 break;
             case tipoPiedra:
@@ -140,11 +199,15 @@ var Objeto = cc.Class.extend({
                     case formaCuadrado:
                         newSprite = new cc.PhysicsSprite(res.stone21);
                         break;
+                    case formaRectanguloDePie:
+                        newSprite = new cc.PhysicsSprite(res.stone31);
+                        break;
                 }
                 break;
         }
         this.cambiarSprite(newSprite);
     }, cargarEstadoMedioRoto:function() {
+        this.estado = estadoMedioRoto;
         var newSprite;
         switch(this.tipo) {
             case tipoCristal:
@@ -154,6 +217,9 @@ var Objeto = cc.Class.extend({
                         break;
                     case formaCuadrado:
                         newSprite = new cc.PhysicsSprite(res.glass22);
+                        break;
+                    case formaRectanguloDePie:
+                        newSprite = new cc.PhysicsSprite(res.glass32);
                         break;
                 }
                 break;
@@ -165,6 +231,9 @@ var Objeto = cc.Class.extend({
                     case formaCuadrado:
                         newSprite = new cc.PhysicsSprite(res.wood22);
                         break;
+                    case formaRectanguloDePie:
+                        newSprite = new cc.PhysicsSprite(res.wood32);
+                        break;
                 }
                 break;
             case tipoPiedra:
@@ -174,6 +243,9 @@ var Objeto = cc.Class.extend({
                         break;
                     case formaCuadrado:
                         newSprite = new cc.PhysicsSprite(res.stone22);
+                        break;
+                    case formaRectanguloDePie:
+                        newSprite = new cc.PhysicsSprite(res.stone32);
                         break;
                 }
                 break;
@@ -187,6 +259,7 @@ var Objeto = cc.Class.extend({
         this.gameLayer.addChild(newSprite);
         this.sprite = newSprite;
     }, cargarEstadoRoto:function() {
+        this.estado = estadoRoto;
         var newSprite;
         switch(this.tipo) {
             case tipoCristal:
@@ -196,6 +269,9 @@ var Objeto = cc.Class.extend({
                         break;
                     case formaCuadrado:
                         newSprite = new cc.PhysicsSprite(res.glass23);
+                        break;
+                    case formaRectanguloDePie:
+                        newSprite = new cc.PhysicsSprite(res.glass33);
                         break;
                 }
                 break;
@@ -207,6 +283,9 @@ var Objeto = cc.Class.extend({
                     case formaCuadrado:
                         newSprite = new cc.PhysicsSprite(res.wood23);
                         break;
+                    case formaRectanguloDePie:
+                        newSprite = new cc.PhysicsSprite(res.wood33);
+                        break;
                 }
                 break;
             case tipoPiedra:
@@ -217,14 +296,31 @@ var Objeto = cc.Class.extend({
                     case formaCuadrado:
                         newSprite = new cc.PhysicsSprite(res.stone23);
                         break;
+                    case formaRectanguloDePie:
+                        newSprite = new cc.PhysicsSprite(res.stone33);
+                        break;
                 }
                 break;
         }
         this.cambiarSprite(newSprite);
     }, destruido:function() {
+        this.estado = estadoDestruido;
         if (!this.eliminado) {
+            this.reproducirSonidoRotura();
             this.gameLayer.eliminarObjeto(this);
             this.eliminado = true;
+        }
+    }, reproducirSonidoRotura:function() {
+        switch(this.tipo) {
+            case tipoCristal:
+                cc.audioEngine.playEffect(res.glass_break_wav);
+                break;
+            case tipoMadera:
+                cc.audioEngine.playEffect(res.wood_break_wav);
+                break;
+            case tipoPiedra:
+                cc.audioEngine.playEffect(res.stone_break_wav);
+                break;
         }
     }
 });
