@@ -472,6 +472,7 @@ var GameLayer = cc.Layer.extend({
 var GameScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
+        cc.audioEngine.playMusic(res.sonido_bucle, true);
         var layer = new GameLayer();
         this.addChild(layer);
         //var controlesLayer = new ControlesLayer();
