@@ -68,11 +68,13 @@ var AlienCuadrado = cc.Class.extend({
                 break;
         }
         return newSprite;
-    }, colision:function(velocidad) {
-        if (this.vida > 500)
-            this.vida -= velocidad * .25;
-        else
-            this.vida -= velocidad;
+    }, colision:function(velocidad, colisionPorProyectil) {
+        if (velocidad > 150 || colisionPorProyectil) {
+            if (this.vida > 500)
+                this.vida -= velocidad * .25;
+            else
+                this.vida -= velocidad;
+        }
         this.actualizar();
     }, actualizar:function() {
         if (this.vida > 0)

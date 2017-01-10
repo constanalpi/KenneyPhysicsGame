@@ -6,6 +6,7 @@ slingRubber2:null,
 slingRubber3:null,
 posicionInicialProyectil:null,
 proyectil:null,
+posicionInicial:null,
 slingRadius: {min: 20, max: 80},
 slingAngle: {min: 4.36, max: 5.14},
 apuntando:false,
@@ -13,6 +14,7 @@ ctor:function(gameLayer, posicion) {
 
     this.gameLayer = gameLayer;
     this.posicionInicialProyectil = cc.p(posicion.x - 20, posicion.y + 120);
+    this.posicionInicial = posicion;
 
     var sling1Sprite = new cc.Sprite.create(res.sling1);
     //sling1Sprite.setAnchorPoint(cc.p(1, 0));
@@ -46,6 +48,10 @@ ctor:function(gameLayer, posicion) {
 
     var vector = cc.pSub(this.posicionInicialProyectil, posicion);
     if ((this.apuntando = (cc.pLength(vector) < this.slingRadius.max)) && !this.slingRubber3) {
+        this.slingRubber1.setVisible(true);
+        this.slingRubber2.setVisible(true);
+        if (this.slingRubber3)
+            this.slingRubber3.setVisible(true);
         this.slingRubber3 = new cc.Sprite.create(res.sling3);
         this.slingRubber3.setPosition(posicion);
         this.slingRubber3.setScaleX(2);
@@ -92,9 +98,12 @@ ctor:function(gameLayer, posicion) {
     this.slingRubber1.setScaleY(this.slingRubber2.getScaleY());
 }, mouseUp:function(posicion) {
     if (this.apuntando) {
-        this.slingRubber1.setVisible(false);
-        this.slingRubber2.setVisible(false);
-        this.slingRubber3.setVisible(false);
+        this.gameLayer.removeChild(this.slingRubber1);
+        this.gameLayer.removeChild(this.slingRubber2);
+        this.gameLayer.removeChild(this.slingRubber3);
+        this.slingRubber3 = null;
+        this.slingRubber1 = null;
+        this.slingRubber2 = null;
 
         this.gameLayer.space.addBody(this.proyectil.spriteProyectil.body);
         //this.gameLayer.space.addShape(this.proyectil.spriteProyectil.shape);
@@ -111,5 +120,17 @@ ctor:function(gameLayer, posicion) {
     this.proyectil = proyectil;
     var actionMoverProyectilSobreDisparador = cc.MoveTo.create(1, this.posicionInicialProyectil);
     this.proyectil.spriteProyectil.runAction(actionMoverProyectilSobreDisparador);
+
+    this.slingRubber1 = new cc.Sprite.create(res.sling3);
+    this.slingRubber1.setPosition(cc.p(this.posicionInicial.x - 30, this.posicionInicial.y + 120));
+    this.slingRubber1.setScaleY(0.7);
+    this.slingRubber1.setAnchorPoint(cc.p(1, 0.5));
+    this.gameLayer.addChild(this.slingRubber1, 20);
+
+    this.slingRubber2 = new cc.Sprite.create(res.sling3);
+    this.slingRubber2.setPosition(cc.p(this.posicionInicial.x - 2, this.posicionInicial.y + 117));
+    this.slingRubber2.setScaleY(0.7);
+    this.slingRubber2.setAnchorPoint(cc.p(1, 0.5));
+    this.gameLayer.addChild(this.slingRubber2, 20);
 }
 });

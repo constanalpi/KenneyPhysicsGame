@@ -387,26 +387,26 @@ var GameLayer = cc.Layer.extend({
         }
         shapes[1]["alien"].colision(Math.max(Math.max(Math.abs(shapes[0].body.getVel().x),
                 Math.abs(shapes[0].body.getVel().y)), Math.max(Math.abs(shapes[1].body.getVel().x),
-                Math.abs(shapes[1].body.getVel().y))));
+                Math.abs(shapes[1].body.getVel().y))), true);
    }, colisionObjetoAlien:function(arbiter, space) {
         var shapes = arbiter.getShapes();
         shapes[1]["alien"].colision(Math.max(Math.max(Math.abs(shapes[0].body.getVel().x),
                 Math.abs(shapes[0].body.getVel().y)), Math.max(Math.abs(shapes[1].body.getVel().x),
-                Math.abs(shapes[1].body.getVel().y))));
+                Math.abs(shapes[1].body.getVel().y))), false);
    }, colisionDisparoOvniAlien:function(arbiter, space) {
         var shapes = arbiter.getShapes();
-        shapes[1]["alien"].colision(10000);
+        shapes[1]["alien"].colision(10000, false);
         this.eliminarShape(shapes[0]);
    }, colisionDisparoOvniObjeto:function(arbiter, space) {
         var shapes = arbiter.getShapes();
-        shapes[1]["object"].colision(10000);
+        shapes[1]["object"].colision(10000, false);
         this.eliminarShape(shapes[0]);
    }, colisionDisparoOvniSuelo:function(arbiter, space) {
         var shapes = arbiter.getShapes();
         this.eliminarShape(shapes[0]);
    }, colisionAlienSuelo:function(arbiter, space) {
         var shapes = arbiter.getShapes();
-        shapes[0]["alien"].colision(Math.max(Math.abs(shapes[0].body.getVel().x), Math.abs(shapes[0].body.getVel().y)));
+        shapes[0]["alien"].colision(Math.max(Math.abs(shapes[0].body.getVel().x), Math.abs(shapes[0].body.getVel().y)), false);
    }, eliminarObjeto:function(objeto) {
         this.objetosEliminar.push(objeto);
    }, eliminarObjetos:function() {

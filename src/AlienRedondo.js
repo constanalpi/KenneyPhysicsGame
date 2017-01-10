@@ -48,9 +48,9 @@ var AlienRedondo = cc.Class.extend({
         this.gameLayer.space.addShape(this.shape);
         // añadir sprite a la capa
         this.gameLayer.addChild(this.sprite, 10);
-    }, colision:function(velocidad) {
-        if (Math.abs(velocidad) < 150) return;
-        this.vida -= velocidad;
+    }, colision:function(velocidad, colisionPorProyectil) {
+        if (Math.abs(velocidad) > 150 || colisionPorProyectil)
+            this.vida -= velocidad;
         if (this.vida < 0 && !this.eliminado) {
             this.gameLayer.eliminarAlien(this);
             this.eliminado = true;
