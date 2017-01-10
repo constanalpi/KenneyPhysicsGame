@@ -39,11 +39,13 @@ var GameLayer = cc.Layer.extend({
     proyectilActivo:null,
     proyectilSpriteActivo:null,
     numeroProyectil:null,
+    tiempoProyectilParado:null,
     ctor:function () {
         this._super();
         // Cachear
 
         this.estadoCamara = estadoObservando;
+        this.tiempoProyectilParado = 0;
 
         // Inicializar listeners de Mouse
         cc.eventManager.addListener({event: cc.EventListener.MOUSE, onMouseDown: this.procesarMouseDown}, this);
@@ -99,6 +101,7 @@ var GameLayer = cc.Layer.extend({
         this.eliminarAliens();
         this.eliminarProyectiles();
         this.eliminarShapes();
+        console.log(this.estadoCamara);
     }, cargarMapa:function() {
         switch(this.nivel) {
             case 1:
@@ -138,12 +141,10 @@ var GameLayer = cc.Layer.extend({
         this.cargarCristales();
         this.cargarMaderas();
         this.cargarPiedras();
-        console.log(this.aliens);
         this.aliens = [];
         this.cargarAliensRedondos();
         this.cargarAliensCuadrados();
         this.cargarAliensSuit();
-        console.log(this.aliens);
         this.cargarProyectiles();
         this.cargarSistemaDisparo();
         this.cargarPuntoEnfoqueObjetos();
@@ -311,8 +312,10 @@ var GameLayer = cc.Layer.extend({
             this.sistemaDisparo.cargar(this.proyectiles[this.numeroProyectil]);
         }
    }, playEstadoDisparando:function(dt) {
-        if (this.proyectilActivo == null && this.proyectilSpriteActivo == null) {
+        if (this.proyectilActivo == null && this.proyectilSpriteActivo == null || this.proyectilParado(dt)) {
             this.estadoCamara = estadoYendoAMirar;
+            this.numeroProyectil++;
+            console.log("we are here " + this.numeroProyectil);
             return;
         }
         if (this.proyectilActivo != null) {
@@ -331,6 +334,17 @@ var GameLayer = cc.Layer.extend({
             }
         }
 
+   }, proyectilParado:function(dt) {
+        if (this.proyectilActivo == null)
+            return false;
+        else if (Math.max(Math.abs(this.proyectilActivo.bodyProyectil.getVel().x),
+                Math.abs(this.proyectilActivo.bodyProyectil.getVel().y)) < 10)
+            this.tiempoProyectilParado += dt;
+        if (this.tiempoProyectilParado > 3) {
+            this.tiempoProyectilParado = 0;
+            return true;
+        }
+        return false;
    }, colisionAlienPincho:function(arbiter, space) {
         arbiter.getShapes()[0].colision(10000);
    }, colisionProyectilPincho(arbiter, space) {
