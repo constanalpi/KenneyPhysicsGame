@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="133">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="166">
  <tileset firstgid="1" name="tiles32" tilewidth="32" tileheight="32" tilecount="98" columns="14">
   <image source="tiles32.png" width="448" height="224"/>
  </tileset>
@@ -25,65 +25,83 @@
   </object>
  </objectgroup>
  <objectgroup name="Cristal">
-  <object id="4" x="2204.76" y="1540.52" width="50" height="25"/>
-  <object id="9" x="2226.33" y="1485.24" width="30" height="30"/>
-  <object id="102" x="2105.43" y="1511.85" width="50" height="25"/>
-  <object id="105" x="2426.09" y="1478.85" width="50" height="25"/>
-  <object id="114" x="2494.33" y="1507.91" width="30" height="30"/>
-  <object id="115" x="2423.67" y="1534.91" width="30" height="30"/>
+  <object id="4" x="2322.03" y="1503.52" width="50" height="25"/>
+  <object id="9" x="2120.33" y="1195.24" width="30" height="30"/>
+  <object id="102" x="2110" y="1504.85" width="50" height="25"/>
+  <object id="105" x="2322.03" y="1438.85" width="50" height="25"/>
+  <object id="114" x="2120.33" y="1232.91" width="30" height="30"/>
+  <object id="115" x="2484.03" y="1227.91" width="30" height="30"/>
+  <object id="136" x="2110.43" y="1342.85" width="50" height="25"/>
+  <object id="145" x="2484.03" y="1191.91" width="30" height="30"/>
+  <object id="157" x="2482" y="1306.5" width="50" height="25"/>
  </objectgroup>
  <objectgroup name="Madera">
-  <object id="5" x="2216.76" y="1515.43" width="50" height="25"/>
-  <object id="10" x="2301" y="1505.42" width="30" height="30"/>
-  <object id="81" x="2110.09" y="1542.76" width="50" height="25"/>
-  <object id="83" x="2570.43" y="1542.43" width="50" height="25"/>
-  <object id="85" x="2393.09" y="1507.43" width="50" height="25"/>
-  <object id="94" x="2167.33" y="1538.09" width="30" height="30"/>
+  <object id="5" x="2110.76" y="1409.43" width="50" height="25"/>
+  <object id="81" x="2110" y="1538.76" width="50" height="25"/>
+  <object id="83" x="2475.03" y="1471.43" width="50" height="25"/>
+  <object id="85" x="2322.03" y="1471.43" width="50" height="25"/>
+  <object id="133" x="2475.03" y="1440.43" width="50" height="25"/>
+  <object id="142" x="2475.03" y="1376.43" width="50" height="25"/>
  </objectgroup>
  <objectgroup name="Piedra">
   <object id="7" x="2322.03" y="1540.3" width="50" height="25"/>
-  <object id="11" x="2266.94" y="1533.42" width="30" height="30"/>
-  <object id="24" x="2106.33" y="1481.83" width="50" height="25"/>
-  <object id="63" x="2160.03" y="1510.64" width="50" height="25"/>
-  <object id="64" x="2518.03" y="1481.97" width="50" height="25"/>
-  <object id="65" x="2470.03" y="1539.97" width="50" height="25"/>
-  <object id="73" x="2564.94" y="1509.42" width="30" height="30"/>
-  <object id="74" x="2457.61" y="1509.09" width="30" height="30"/>
+  <object id="11" x="2484.03" y="1268.42" width="30" height="30"/>
+  <object id="24" x="2110.33" y="1470.83" width="50" height="25"/>
+  <object id="63" x="2110.03" y="1440.64" width="50" height="25"/>
+  <object id="64" x="2475.03" y="1503.97" width="50" height="25"/>
+  <object id="65" x="2475.03" y="1539.97" width="50" height="25"/>
+  <object id="73" x="2120.94" y="1270.42" width="30" height="30"/>
+  <object id="135" x="2110" y="1377.64" width="50" height="25"/>
+  <object id="137" x="2110.03" y="1309.64" width="50" height="25"/>
+  <object id="141" x="2475.03" y="1407.97" width="50" height="25"/>
+  <object id="143" x="2475.03" y="1345.97" width="50" height="25"/>
  </objectgroup>
  <objectgroup name="SistemaDisparo">
   <object id="12" x="779" y="1517" width="50" height="50"/>
  </objectgroup>
  <objectgroup name="PuntoEnfoqueObjetos">
-  <object id="128" x="2370.67" y="1393.33" width="10" height="10"/>
+  <object id="128" x="2370.67" y="1344.33" width="10" height="10"/>
  </objectgroup>
  <objectgroup name="AliensRedondos">
-  <object id="15" x="2532.33" y="1537" width="30" height="30">
+  <object id="15" x="2543.33" y="1501" width="30" height="30">
    <ellipse/>
   </object>
-  <object id="118" x="2589.67" y="1479.67" width="30" height="30">
+  <object id="118" x="2581.67" y="1497.67" width="30" height="30">
    <ellipse/>
   </object>
-  <object id="119" x="2265.67" y="1484.67" width="30" height="30">
+  <object id="119" x="2266.67" y="1536.67" width="30" height="30">
+   <ellipse/>
+  </object>
+  <object id="150" x="2182.67" y="1532.67" width="30" height="30">
+   <ellipse/>
+  </object>
+  <object id="151" x="2384.67" y="1534.67" width="30" height="30">
    <ellipse/>
   </object>
  </objectgroup>
  <objectgroup name="AliensCuadrados">
-  <object id="16" x="2353.33" y="1506.67" width="30" height="30"/>
+  <object id="16" x="2225.33" y="1532.67" width="30" height="30"/>
+  <object id="152" x="2425.33" y="1534.67" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="AliensSuit">
-  <object id="17" x="2388" y="1534.67" width="30" height="30"/>
+  <object id="17" x="2120" y="1155.67" width="30" height="30"/>
+  <object id="146" x="2333.03" y="1399.67" width="30" height="30"/>
+  <object id="147" x="2484.03" y="1154.67" width="30" height="30"/>
+  <object id="148" x="2584" y="1533.67" width="30" height="30"/>
+  <object id="149" x="2544" y="1534.67" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="ProyectilesNormales">
-  <object id="18" x="586" y="1523" width="30" height="30"/>
-  <object id="130" x="656" y="1523" width="30" height="30"/>
-  <object id="131" x="356" y="1526" width="30" height="30"/>
+  <object id="18" x="623" y="1523" width="30" height="30"/>
+  <object id="130" x="498" y="1523" width="30" height="30"/>
+  <object id="131" x="443" y="1523" width="30" height="30"/>
+  <object id="161" x="686" y="1524" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="ProyectilesMultiples">
-  <object id="19" x="505" y="1525" width="30" height="30"/>
+  <object id="19" x="559" y="1524" width="30" height="30"/>
+  <object id="162" x="381" y="1524" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="ProyectilesOvni">
-  <object id="20" x="430" y="1525" width="30" height="30"/>
-  <object id="132" x="287" y="1525" width="30" height="30"/>
+  <object id="165" x="320" y="1525" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="Pinchos">
   <object id="22" x="1384" y="1581">
