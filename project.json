@@ -21,6 +21,7 @@
         "src/AlienCuadrado.js",
         "src/ProyectilMultiple.js",
         "src/ProyectilOvni.js",
-        "src/GameOverLayer.js"
+        "src/GameOverLayer.js",
+        "src/WinLayer.js"
     ]
 }
